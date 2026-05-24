@@ -68,6 +68,7 @@ export default {
                 sans: ["Arshelina", "sans-serif"],
                 heading: ["Arshelina", "serif"],
                 alt: ['Arshelina"', "sans-serif"],
+                arabic: ["Noto Sans Arabic", "sans-serif"],
             },
             boxShadow: {
                 card: "0 10px 40px rgba(10, 10, 10, 0.05)",

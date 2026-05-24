@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import logoWhite1 from "../../assets/primary_white2.png";
 
 // ── Language state ────────────────────────────────────────────────
-const VALID_LANGS = ['en', 'ja', 'zh-CN'];
+const VALID_LANGS = ['en', 'ja', 'zh-CN', 'ar'];
 const stored = localStorage.getItem('lang') ?? 'en';
 const lang = ref(VALID_LANGS.includes(stored) ? stored : 'en');
 
@@ -16,9 +16,16 @@ const languages = [
 	{ code: 'en',    label: 'English',  short: 'EN' },
 	{ code: 'ja',    label: '日本語',    short: 'JA' },
 	{ code: 'zh-CN', label: '中文',      short: 'ZH' },
+	{ code: 'ar',    label: 'العربية',   short: 'AR' },
 ];
 
 const currentLangLabel = computed(() => languages.find(l => l.code === lang.value)?.label ?? 'English');
+
+const isRtl = (code: string) => code === 'ar';
+
+const applyDirection = (code: string) => {
+	document.documentElement.dir = isRtl(code) ? 'rtl' : 'ltr';
+};
 
 const setGTCookie = (code: string) => {
 	const value = code === 'en' ? '' : `/en/${code}`;
@@ -31,10 +38,12 @@ const switchLang = (code: string) => {
 	if (code === lang.value) return;
 	localStorage.setItem('lang', code);
 	setGTCookie(code);
-	window.location.reload();
+	// Small delay ensures cookies are committed before the browser navigates
+	setTimeout(() => window.location.reload(), 50);
 };
 
 onMounted(() => {
+	applyDirection(lang.value);
 	document.addEventListener('click', handleClickOutside);
 });
 onUnmounted(() => {
@@ -62,6 +71,8 @@ const navMap: Record<string, Record<string, string>> = {
 	      Contact: 'お問い合わせ', 'Holiday Homes': '民泊運営', Offplan: '新築物件', Areas: 'エリア' },
 	'zh-CN': { Home: '首页', Buy: '购买', Sell: '出售', Rent: '租房', About: '关于我们',
 	            Contact: '联系我们', 'Holiday Homes': '假日住宅', Offplan: '期房', Areas: '区域' },
+	ar: { Home: 'الرئيسية', Buy: 'شراء', Sell: 'بيع', Rent: 'إيجار', About: 'عن الشركة',
+	      Contact: 'اتصل بنا', 'Holiday Homes': 'منازل العطلات', Offplan: 'قيد الانشاء', Areas: 'المناطق' },
 };
 
 const getMenuName = (name: string) => navMap[lang.value]?.[name] ?? name;
@@ -133,7 +144,7 @@ const menuImageUrl = (menu: any) => {
 								</ul>
 							</div>
 						</template>
-						<router-link v-else :to="menu.link || '#'" translate="no"
+						<router-link v-else :to="menu.link ? '/' + menu.link.replace(/^\//, '') : '#'" translate="no"
 							class="px-1 xl:px-2 2xl:px-4 py-2 text-sm xl:text-base text-nowrap hover:text-secondary transition-colors flex items-center font-medium">
 							{{ getMenuName(menu.name) }}
 						</router-link>
@@ -175,7 +186,7 @@ const menuImageUrl = (menu: any) => {
 		<!-- Mobile Sidebar -->
 		<div v-show="mobileMenuOpen" class="lg:hidden fixed inset-0 z-40">
 			<div class="absolute inset-0 bg-black bg-opacity-50" @click="toggleMobileMenu"></div>
-			<div class="absolute top-0 left-0 w-[280px] h-full bg-white z-50 p-5">
+			<div class="absolute top-0 w-[280px] h-full bg-white z-50 p-5" :class="isRtl(lang) ? 'right-0' : 'left-0'">
 				<div class="flex items-center justify-between">
 					<img :src="logoWhite1" class="h-10 w-auto" />
 					<Button variant="ghost" size="icon" class="text-black-100" @click="toggleMobileMenu">
@@ -205,7 +216,7 @@ const menuImageUrl = (menu: any) => {
 										</ul>
 									</div>
 								</template>
-								<router-link v-else :to="menu.link || '#'" translate="no"
+								<router-link v-else :to="menu.link ? '/' + menu.link.replace(/^\//, '') : '#'" translate="no"
 									class="block px-3 py-2 hover:bg-gray-50 rounded text-black-100 font-medium"
 									@click="toggleMobileMenu">
 									{{ getMenuName(menu.name) }}

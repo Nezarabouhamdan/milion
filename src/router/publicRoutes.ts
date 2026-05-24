@@ -111,6 +111,11 @@ const PublicRoutes: CustomRoute[] = [
         component: () => import("../views/AreaSpecificPage.vue"),
         name: "AreaSpecificPage",
     },
+    {
+        path: "/:pathMatch(.*)*",
+        component: () => import("../views/NotFoundPage.vue"),
+        name: "NotFound",
+    },
 ];
 
 export default PublicRoutes;

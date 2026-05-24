@@ -17,8 +17,8 @@ const searchQuery = ref("");
 const currentPage = ref(1);
 const areasPerPage = 6; // Increased to show more areas per page
 
-const stripTags = (html: string) => {
-	return html.replace(/<[^>]+>/g, "");
+const stripTags = (html: string | null | undefined) => {
+	return (html ?? '').replace(/<[^>]+>/g, "");
 };
 
 // Group areas by emirate

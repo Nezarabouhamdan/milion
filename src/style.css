@@ -11,6 +11,10 @@
 		@apply font-sans text-gray-400 bg-neutral antialiased;
 	}
 
+	html[dir="rtl"] body {
+		font-family: "Noto Sans Arabic", sans-serif;
+	}
+
 	h1,
 	h2,
 	h3,
