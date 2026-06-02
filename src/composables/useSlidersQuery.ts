@@ -5,7 +5,7 @@ import type { SuccessResponse } from "../types/response";
 
 const API_URL = "/front/sliders/all";
 
-async function fetchSliders(): Promise<Slider[][]> {
+async function fetchSliders(): Promise<Slider[]> {
 	const { data } = await axios.get<SuccessResponse<Slider[]>>(API_URL);
 	return data.data;
 }

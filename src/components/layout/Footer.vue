@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import footerlogo from "../../assets/logo_white_1.png";
+import footerlogo from "../../assets/logo-main.png";
 import { useSettingsStore } from "../../stores/settingsStore";
 import IconFacebook from "../icons/IconFacebook.vue";
 import IconInstagram from "../icons/IconInstagram.vue";

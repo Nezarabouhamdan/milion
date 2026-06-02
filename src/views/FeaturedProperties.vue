@@ -101,12 +101,12 @@ onMounted(() => {
 			<!-- Left Section -->
 			<div class="lg:col-span-1">
 				<h2
-					class="text-dark text-4xl font-heading font-bold mb-6 leading-snug"
+					class="text-4xl font-heading font-bold mb-6 leading-snug" style="color:#D4AF37;"
 				>
-					<span class="inline-block border-l-4 border-primary pl-3"
+					<span class="inline-block border-l-4 pl-3" style="border-color:#D4AF37;"
 						>featured</span
 					><br />
-					<span class="block text-dark font-black">properties</span>
+					<span class="block font-black">properties</span>
 				</h2>
 				<router-link
 					href="/properties"

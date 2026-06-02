@@ -44,7 +44,7 @@ const setActive = (index: number) => {
 			<span class="text-secondary font-medium uppercase tracking-wide"
 				>Client Testimonials</span
 			>
-			<h2 class="text-4xl font-bold text-dark">What Our Clients Say</h2>
+			<h2 class="text-4xl font-bold" style="color:#D4AF37;">What Our Clients Say</h2>
 			<p class="text-body text-base">
 				Hear from our valued clients about their exceptional experiences
 				with us.

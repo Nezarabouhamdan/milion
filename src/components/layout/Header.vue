@@ -5,7 +5,7 @@ import { imagePath } from "../../utils/helpers";
 import { ScrollArea } from "../ui/scroll-area";
 import { Menu as MenuIcon, ChevronDown, X, Globe as GlobeIcon } from "lucide-vue-next";
 import { Button } from "../ui/button";
-import logoWhite1 from "../../assets/primary_white2.png";
+import logoWhite1 from "../../assets/logo-main.png";
 
 // ── Language state ────────────────────────────────────────────────
 const VALID_LANGS = ['en', 'ja', 'zh-CN', 'ar'];
@@ -78,7 +78,8 @@ const navMap: Record<string, Record<string, string>> = {
 const getMenuName = (name: string) => navMap[lang.value]?.[name] ?? name;
 
 // ── Menu logic ────────────────────────────────────────────────────
-const { data: menus } = useMenuQuery(true);
+const { data: menusRaw } = useMenuQuery(true);
+const menus = computed(() => (menusRaw.value as unknown) as any[]);
 const mobileMenuOpen = ref(false);
 const activeDropdown = ref<number | null>(null);
 const mobileActiveDropdown = ref<number | null>(null);
@@ -109,7 +110,7 @@ const menuImageUrl = (menu: any) => {
 			<!-- Logo -->
 			<div class="flex justify-center w-1/3 lg:w-full xl:w-auto lg:justify-start">
 				<router-link to="/" class="block">
-					<img :src="logoWhite1" alt="MillionHomes" class="w-auto lg:w-full xl:w-auto object-contain max-w-full h-12 xl:h-16" />
+					<img :src="logoWhite1" alt="MillionHomes" class="w-auto lg:w-full xl:w-auto object-contain max-w-full h-24 xl:h-32" />
 				</router-link>
 			</div>
 
@@ -119,14 +120,14 @@ const menuImageUrl = (menu: any) => {
 					<li v-for="menu in menus" :key="menu.id" class="relative group">
 						<template v-if="hasSubMenus(menu)">
 							<button translate="no"
-								class="px-1 xl:px-2 2xl:px-4 py-2 text-sm xl:text-base text-nowrap hover:text-secondary transition-colors font-medium flex items-center"
+								class="px-1 xl:px-2 2xl:px-4 py-2 text-xs xl:text-sm text-nowrap tracking-wider uppercase hover:text-secondary transition-colors font-medium flex items-center"
 								:class="{ 'text-secondary': activeDropdown === menu.id }"
 								@click="toggleDropdown(menu.id)">
 								{{ getMenuName(menu.name) }}
 								<ChevronDown class="h-4 w-4 ml-1" :class="{ 'rotate-180': activeDropdown === menu.id }" />
 							</button>
 							<div v-show="activeDropdown === menu.id"
-								class="nav-dropdown-panel absolute border border-gray-200 left-0 top-full mt-1 w-[400px] bg-white shadow-card rounded overflow-hidden z-50 text-black-100">
+								class="nav-dropdown-panel absolute left-0 top-full mt-1 w-[400px] rounded overflow-hidden z-50" style="background:#242424; border:1px solid rgba(212,175,55,0.2);">
 								<div v-if="menuImageUrl(menu)" class="relative h-[150px] w-full overflow-hidden">
 									<img :src="menuImageUrl(menu)" :alt="menu.name" class="w-full h-full object-cover" />
 									<div class="absolute inset-0 flex items-center justify-center" style="background-color:rgba(0,0,0,0.5)">
@@ -136,7 +137,10 @@ const menuImageUrl = (menu: any) => {
 								<ul class="p-4">
 									<li v-for="submenu in menu.menus" :key="submenu.id" class="py-1">
 										<router-link :to="'/' + submenu.link || '#'"
-											class="block px-4 py-2 hover:bg-gray-50 rounded transition-colors"
+											class="block px-4 py-2 rounded transition-colors"
+											style="color:#cccccc;"
+											@mouseover="($event.target as HTMLElement).style.color='#D4AF37'"
+											@mouseleave="($event.target as HTMLElement).style.color='#cccccc'"
 											@click="closeDropdowns">
 											{{ submenu.name }}
 										</router-link>
@@ -145,7 +149,7 @@ const menuImageUrl = (menu: any) => {
 							</div>
 						</template>
 						<router-link v-else :to="menu.link ? '/' + menu.link.replace(/^\//, '') : '#'" translate="no"
-							class="px-1 xl:px-2 2xl:px-4 py-2 text-sm xl:text-base text-nowrap hover:text-secondary transition-colors flex items-center font-medium">
+							class="px-1 xl:px-2 2xl:px-4 py-2 text-xs xl:text-sm text-nowrap tracking-wider uppercase hover:text-secondary transition-colors flex items-center font-medium">
 							{{ getMenuName(menu.name) }}
 						</router-link>
 					</li>
@@ -160,6 +164,10 @@ const menuImageUrl = (menu: any) => {
 
 			<!-- Language Dropdown (Desktop) -->
 			<div class="flex items-center gap-2 xl:gap-3 w-1/3 lg:w-auto justify-end notranslate" ref="langDropdownRef">
+				<router-link to="/contact-us"
+					class="hidden lg:inline-flex items-center border border-secondary text-secondary hover:bg-secondary hover:text-black-100 px-4 py-2 text-xs tracking-widest uppercase font-semibold transition-all duration-300">
+					Contact Us
+				</router-link>
 				<div class="relative">
 					<button
 						class="px-2 2xl:px-4 py-2 text-sm xl:text-base text-nowrap bg-white text-gray-700 border border-gray-300 rounded-lg shadow-lg hover:bg-black-100 hover:text-white transition-all duration-300 flex items-center gap-2 font-bold"
@@ -188,7 +196,7 @@ const menuImageUrl = (menu: any) => {
 			<div class="absolute inset-0 bg-black bg-opacity-50" @click="toggleMobileMenu"></div>
 			<div class="absolute top-0 w-[280px] h-full bg-white z-50 p-5" :class="isRtl(lang) ? 'right-0' : 'left-0'">
 				<div class="flex items-center justify-between">
-					<img :src="logoWhite1" class="h-10 w-auto" />
+					<img :src="logoWhite1" class="h-16 w-auto" />
 					<Button variant="ghost" size="icon" class="text-black-100" @click="toggleMobileMenu">
 						<X class="h-5 w-5" />
 					</Button>

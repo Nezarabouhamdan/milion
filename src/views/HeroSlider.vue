@@ -156,14 +156,14 @@ onMounted(() => {
 								<div class="flex gap-4 justify-center">
 									<router-link
 										to="/properties"
-										class="inline-flex gap-1.5 items-center text-base sm:text-lg font-medium bg-white text-black-100 hover:bg-black-100 hover:text-white rounded-lg py-3 sm:py-4 px-5 sm:px-6 transition shadow-lg hover:border hover:border-white/30"
+										class="inline-flex gap-1.5 items-center text-base sm:text-lg font-medium border border-secondary text-secondary hover:bg-secondary hover:text-black-100 rounded-lg py-3 sm:py-4 px-5 sm:px-6 transition"
 									>
 										Buy a Property
 										<IconArrowUpRight />
 									</router-link>
 									<router-link
 										to="/sell"
-										class="inline-flex gap-1.5 items-center text-base sm:text-lg font-medium bg-white text-black-100 hover:bg-black-100 hover:text-white rounded-lg py-3 sm:py-4 px-5 sm:px-6 transition shadow-lg hover:border hover:border-white/30"
+										class="inline-flex gap-1.5 items-center text-base sm:text-lg font-medium border border-white/70 text-white hover:bg-white hover:text-black-100 rounded-lg py-3 sm:py-4 px-5 sm:px-6 transition"
 									>
 										Sell a Property
 										<IconArrowUpRight />

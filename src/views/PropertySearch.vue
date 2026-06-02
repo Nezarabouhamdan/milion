@@ -143,14 +143,14 @@ const propertyCategories = [
 <template>
 	<div
 		ref="propertySearchRef"
-		class="bg-white rounded-3xl shadow-xl -mt-32 relative z-20 max-w-7xl mx-auto px-6 py-8 md:px-12 md:py-12 transform transition-all duration-300"
+		class="relative z-20 max-w-7xl mx-auto px-6 py-8 md:px-12 md:py-12" style="background-color:#1a1a1a;"
 		:class="{
 			'scale-100 opacity-100': isVisible,
 			'scale-95 opacity-0': !isVisible,
 		}"
 	>
 		<h3
-			class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 tracking-tight"
+			class="text-2xl md:text-3xl font-bold mb-8 tracking-tight" style="color:#D4AF37;"
 		>
 			Discover Your Perfect Property
 		</h3>

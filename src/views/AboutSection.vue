@@ -30,7 +30,7 @@ const hasAboutUs = computed(() => aboutUs.value);
 </script>
 
 <template>
-	<section ref="aboutUsSectionRef" class="w-full bg-gray-50 py-16">
+	<section ref="aboutUsSectionRef" class="w-full py-16" style="background-color:#1a1a1a;">
 		<div class="container">
 			<!-- Loading -->
 			<AboutUsSkeleton v-if="isLoading" />
@@ -64,7 +64,7 @@ const hasAboutUs = computed(() => aboutUs.value);
 							>{{ isChinese ? "关于" : "about" }}</span
 						>
 						<h2
-							class="text-5xl font-extrabold text-gray-900 leading-tight mt-2"
+							class="text-5xl font-extrabold leading-tight mt-2" style="color:#D4AF37;"
 						>
 							{{ t(aboutUs.title, aboutUs.title_jp) || "" }}
 						</h2>

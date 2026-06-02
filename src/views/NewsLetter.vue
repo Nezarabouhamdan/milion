@@ -38,7 +38,7 @@ const submitForm = async () => {
 
 <template>
 	<section
-		class="relative bg-black-100 text-white py-16 px-6 overflow-hidden"
+		class="relative py-16 px-6 overflow-hidden" style="background-color:#1a1a1a;"
 	>
 		<!-- Soft overlay for depth -->
 		<div class="absolute inset-0 bg-black/30"></div>
@@ -54,14 +54,14 @@ const submitForm = async () => {
 		<div class="relative container mx-auto text-center space-y-6 z-10">
 			<!-- Heading -->
 			<h2
-				class="text-4xl md:text-5xl font-heading font-bold tracking-tight text-white drop-shadow-lg animate-slide-up"
+				class="text-4xl md:text-5xl font-heading font-bold tracking-tight drop-shadow-lg animate-slide-up" style="color:#D4AF37;"
 			>
 				Stay in the Loop
 			</h2>
 
 			<!-- Subheading -->
 			<p
-				class="text-lg md:text-xl text-gray-50 leading-relaxed max-w-2xl mx-auto font-sans"
+				class="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto font-sans" style="color:#aaaaaa;"
 			>
 				Subscribe for exclusive property listings, market insights, and
 				real estate tips delivered to your inbox.
