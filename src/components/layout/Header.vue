@@ -197,7 +197,7 @@ const menuImageUrl = (menu: any) => {
 						<template v-if="hasSubMenus(menu)">
 							<button
 								translate="no"
-								class="px-1 xl:px-2 2xl:px-4 py-2 text-xs xl:text-sm text-nowrap tracking-wider uppercase hover:text-secondary transition-colors font-medium flex items-center"
+								class="px-1 xl:px-2 2xl:px-4 py-2 text-xs text-nowrap tracking-wider uppercase hover:text-secondary transition-colors font-medium flex items-center"
 								:class="{
 									'text-secondary':
 										activeDropdown === menu.id,
@@ -283,7 +283,7 @@ const menuImageUrl = (menu: any) => {
 									: '#'
 							"
 							translate="no"
-							class="px-1 xl:px-2 2xl:px-4 py-2 text-xs xl:text-sm text-nowrap tracking-wider uppercase hover:text-secondary transition-colors flex items-center font-medium"
+							class="px-1 xl:px-2 2xl:px-4 py-2 text-xs text-nowrap tracking-wider uppercase hover:text-secondary transition-colors flex items-center font-medium"
 						>
 							{{ getMenuName(menu.name) }}
 						</router-link>
@@ -307,7 +307,7 @@ const menuImageUrl = (menu: any) => {
 			>
 				<div class="relative">
 					<button
-						class="px-1.5 lg:px-2 2xl:px-4 py-1 lg:py-2 text-xs lg:text-sm xl:text-base text-nowrap bg-white text-gray-700 border border-gray-300 rounded-lg shadow-lg hover:bg-black-100 hover:text-white transition-all duration-300 flex items-center gap-1 lg:gap-2 font-bold"
+						class="px-1.5 lg:px-2 2xl:px-4 py-1 lg:py-2 text-xs text-nowrap bg-white text-gray-700 border border-gray-300 rounded-lg shadow-lg hover:bg-black-100 hover:text-white transition-all duration-300 flex items-center gap-1 lg:gap-2 font-bold"
 						@click.stop="langDropdownOpen = !langDropdownOpen"
 					>
 						<GlobeIcon class="w-4 h-4" />

@@ -51,6 +51,11 @@ const isChinese = computed(() => props.lang === "jp");
 // fallback helper
 const t = (normal: string | null | undefined, jp: string | null | undefined) =>
 	isChinese.value && jp ? jp : normal;
+
+const bioHtml = (bio: string | null | undefined) =>
+	(bio ?? '')
+		.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+		.replace(/\r?\n/g, '<br>');
 </script>
 
 <template>
@@ -98,9 +103,7 @@ const t = (normal: string | null | undefined, jp: string | null | undefined) =>
 							<p class="text-sm text-gray-500">
 								{{ t(member.position, member.position_jp) }}
 							</p>
-							<p v-if="t(member.bio, member.bio_jp)" class="text-xs text-gray-400 line-clamp-3 mt-1">
-								{{ t(member.bio, member.bio_jp) }}
-							</p>
+							<p v-if="t(member.bio, member.bio_jp)" class="text-xs text-gray-400 mt-1" v-html="bioHtml(t(member.bio, member.bio_jp))"></p>
 						</div>
 						<div
 							class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition"
@@ -144,9 +147,8 @@ const t = (normal: string | null | undefined, jp: string | null | undefined) =>
 					<p
 						v-if="selectedMember?.bio || selectedMember?.bio_jp"
 						class="text-center text-gray-600"
-					>
-						{{ t(selectedMember?.bio, selectedMember?.bio_jp) }}
-					</p>
+						v-html="bioHtml(t(selectedMember?.bio, selectedMember?.bio_jp))"
+					></p>
 					<div class="flex items-center justify-center gap-6 mt-4">
 						<!-- Phone Icon Button -->
 						<a

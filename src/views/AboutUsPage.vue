@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { ref, watch, onMounted, computed, nextTick } from "vue";
 import { useIntersectionObserver } from "../composables/useIntersectionObserver";
 import { useAboutUsQuery } from "../composables/useAboutUsPageQuery";
@@ -156,20 +156,20 @@ onMounted(async () => {
 				<div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
 					<img :src="chairman" alt="Chairman" class="rounded-2xl shadow-lg w-full object-cover max-h-[400px]" loading="lazy" />
 					<div>
-						<h2 class="text-3xl sm:text-4xl font-bold mb-6 leading-snug" style="color:#C9A028;">CEOâ€™s Message</h2>
+						<h2 class="text-3xl sm:text-4xl font-bold mb-6 leading-snug" style="color:#C9A028;">CEO’s Message</h2>
 						<p class="leading-relaxed text-base sm:text-lg mb-4" style="color:#cccccc;">
 							At Million Homes Real Estate Broker LLC, we believe that excellence is not just a
-							standardâ€”itâ€™s a culture. Our journey has been shaped by bold vision, relentless dedication,
+							standard—it’s a culture. Our journey has been shaped by bold vision, relentless dedication,
 							and a team that thrives on ambition, trust, and innovation. As we continue to elevate the
 							standards of real estate advisory in Dubai and beyond, we recognize that our people are our
 							greatest asset. Whether you are an experienced professional or just starting your career,
-							this is a place where your potential is not only seenâ€”but nurtured. We offer more than just
-							a jobâ€”we offer a platform to grow, lead, and make an impact in one of the worldâ€™s most
+							this is a place where your potential is not only seen—but nurtured. We offer more than just
+							a job—we offer a platform to grow, lead, and make an impact in one of the world’s most
 							dynamic property markets. Here, your ideas matter, your efforts are celebrated, and your
-							career has no boundaries. Join us in redefining excellence. Letâ€™s build a future
-							togetherâ€”one milestone, one home, one dream at a time.
+							career has no boundaries. Join us in redefining excellence. Let’s build a future
+							together—one milestone, one home, one dream at a time.
 						</p>
-						<p class="font-medium font-semibold text-base" style="color:#C9A028;">â€” Takuhiko Ito</p>
+						<p class="font-medium font-semibold text-base" style="color:#C9A028;">— Takuhiko Ito</p>
 					</div>
 				</div>
 			</section>
