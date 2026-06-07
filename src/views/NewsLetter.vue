@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from "vue";
 import { useNewsletter } from "../api/newsLetter/api";
 import * as lucideIcons from "lucide-vue-next";
@@ -54,7 +54,7 @@ const submitForm = async () => {
 		<div class="relative container mx-auto text-center space-y-6 z-10">
 			<!-- Heading -->
 			<h2
-				class="text-4xl md:text-5xl font-heading font-bold tracking-tight drop-shadow-lg animate-slide-up" style="color:#D4AF37;"
+				class="text-4xl md:text-5xl font-heading font-bold tracking-tight drop-shadow-lg animate-slide-up" style="color:#C9A028;"
 			>
 				Stay in the Loop
 			</h2>
@@ -168,3 +168,4 @@ const submitForm = async () => {
 	}
 }
 </style>
+

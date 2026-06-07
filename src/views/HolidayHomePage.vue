@@ -62,11 +62,11 @@ const primaryImage = (property: Property) => {
 				>
 					Short Stays. Lasting Impressions.
 				</h1>
-				<p class="text-lg sm:text-xl text-gray-100 leading-relaxed">
+				<p class="text-lg sm:text-xl leading-relaxed" style="color:rgba(255,255,255,0.85);">
 					Escape to elegance with Our Holiday Homes — a curated collection of fully - furnished, short - term
 					rentals in Dubai’s most iconic locations.
 				</p>
-				<p class="text-sm text-gray-200">
+				<p class="text-sm" style="color:rgba(255,255,255,0.65);">
 					All properties are serviced, ready to move in, and equipped with premium amenities.
 				</p>
 				<a

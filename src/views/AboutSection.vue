@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { inject, ref, watch, computed } from "vue";
 import { useIntersectionObserver } from "../composables/useIntersectionObserver";
 import { useAboutUsSectionQuery } from "../composables/useAboutUsQuery";
@@ -61,10 +61,10 @@ const hasAboutUs = computed(() => aboutUs.value);
 					<div>
 						<span
 							class="inline-block border-l-4 border-primary pl-3 text-sm uppercase tracking-widest font-medium text-gray-500 mb-2"
-							>{{ isChinese ? "关于" : "about" }}</span
+							>{{ isChinese ? "å…³äºŽ" : "about" }}</span
 						>
 						<h2
-							class="text-5xl font-extrabold leading-tight mt-2" style="color:#D4AF37;"
+							class="text-5xl font-extrabold leading-tight mt-2" style="color:#C9A028;"
 						>
 							{{ t(aboutUs.title, aboutUs.title_jp) || "" }}
 						</h2>
@@ -89,8 +89,8 @@ const hasAboutUs = computed(() => aboutUs.value);
 							{{
 								t(aboutUs.ctaText, aboutUs.ctaText_jp) ||
 								(isChinese
-									? "认识我们的团队 →"
-									: "meet our team →")
+									? "è®¤è¯†æˆ‘ä»¬çš„å›¢é˜Ÿ â†’"
+									: "meet our team â†’")
 							}}
 						</router-link>
 					</div>
@@ -99,3 +99,4 @@ const hasAboutUs = computed(() => aboutUs.value);
 		</div>
 	</section>
 </template>
+

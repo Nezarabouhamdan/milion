@@ -13,7 +13,8 @@
       "Bash(sed -n '35,42p' \"c:\\\\Users\\\\Khales\\\\milion\\\\src\\\\views\\\\WhyChooseUse.vue\")",
       "Bash(sed -n '48,55p' \"c:\\\\Users\\\\Khales\\\\milion\\\\src\\\\views\\\\BlogsPreview.vue\")",
       "Bash(sed -n '140,150p' \"c:\\\\Users\\\\Khales\\\\milion\\\\src\\\\views\\\\PropertySearch.vue\")",
-      "PowerShell(Copy-Item \"C:\\\\Users\\\\Khales\\\\milion\\\\src\\\\assets\\\\IMG_4063.PNG\" \"C:\\\\Users\\\\Khales\\\\milion\\\\src\\\\assets\\\\IMG_4063.png\")"
+      "PowerShell(Copy-Item \"C:\\\\Users\\\\Khales\\\\milion\\\\src\\\\assets\\\\IMG_4063.PNG\" \"C:\\\\Users\\\\Khales\\\\milion\\\\src\\\\assets\\\\IMG_4063.png\")",
+      "Bash(xargs sed -i 's/#D4AF37/#B48933/g')"
     ],
     "additionalDirectories": [
       "C:\\Users\\Khales\\milion\\src\\assets",

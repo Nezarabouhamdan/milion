@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useAreaQuery } from "../composables/useAreaQuery";
 import { useIntersectionObserver } from "../composables/useIntersectionObserver";
@@ -150,7 +150,7 @@ const propertyCategories = [
 		}"
 	>
 		<h3
-			class="text-2xl md:text-3xl font-bold mb-8 tracking-tight" style="color:#D4AF37;"
+			class="text-2xl md:text-3xl font-bold mb-8 tracking-tight" style="color:#C9A028;"
 		>
 			Discover Your Perfect Property
 		</h3>
@@ -361,3 +361,4 @@ input:disabled {
 	@apply bg-gray-100 text-gray-500 cursor-not-allowed;
 }
 </style>
+

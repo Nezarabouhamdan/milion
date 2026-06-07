@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref, watch } from "vue";
 import { useIntersectionObserver } from "../composables/useIntersectionObserver";
 import IconQuote from "../components/icons/IconQuote.vue";
@@ -44,7 +44,7 @@ const setActive = (index: number) => {
 			<span class="text-secondary font-medium uppercase tracking-wide"
 				>Client Testimonials</span
 			>
-			<h2 class="text-4xl font-bold" style="color:#D4AF37;">What Our Clients Say</h2>
+			<h2 class="text-4xl font-bold" style="color:#C9A028;">What Our Clients Say</h2>
 			<p class="text-body text-base">
 				Hear from our valued clients about their exceptional experiences
 				with us.
@@ -191,3 +191,4 @@ const setActive = (index: number) => {
 		</div>
 	</section>
 </template>
+

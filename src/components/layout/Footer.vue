@@ -72,7 +72,6 @@ onBeforeUnmount(() => observer?.disconnect());
 				<div class="flex items-center gap-3">
 					<router-link to="/" class="flex items-center gap-2 hover:text-secondary">
 						<img :src="footerlogo" alt="Logo" class="h-10 w-auto" />
-						<span class="text-white font-semibold text-base">MillionHomes</span>
 					</router-link>
 					<a :href="settingsStore.getSetting('facebook_link')" target="_blank" rel="noopener" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition"><IconFacebook /></a>
 					<a :href="settingsStore.getSetting('instagram_link')" target="_blank" rel="noopener" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition"><IconInstagram /></a>

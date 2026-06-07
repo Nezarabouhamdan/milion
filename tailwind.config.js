@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+﻿/** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
   content: [
@@ -28,7 +28,7 @@ export default {
     },
     colors: {
       primary: "#0A0A0A",
-      secondary: "#DB9D00 ",
+      secondary: "#C9A028",
       accent: "#3C3C3C",
       neutral: "#1a1a1a",
       dark: "#0A0A0A",

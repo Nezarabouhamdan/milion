@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted } from "vue";
 import { imagePath } from "../utils/helpers";
 import IconArrowUpRight from "../components/icons/IconArrowUpRight.vue";

@@ -1,9 +1,10 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { useIntersectionObserver } from "../composables/useIntersectionObserver";
 import { useFeaturedPropertyQuery } from "../composables/useFeaturedPropertyQuery";
 import { imagePath, formatPrice, isImageAsset } from "../utils/helpers";
 import { defineAsyncComponent } from "vue";
+import axios from "../services/axios";
 
 const Error = defineAsyncComponent(
 	() => import("../components/common/Error.vue"),
@@ -12,12 +13,16 @@ const Error = defineAsyncComponent(
 const featuredPropertyRef = ref<HTMLElement | null>(null);
 const { isVisible } = useIntersectionObserver(featuredPropertyRef);
 
+// Active tab
+const activeTab = ref<'featured' | 'offplan'>('offplan');
+
 const primaryImage = (property) => {
-	const imgs = (property.images ?? []).filter((a) => isImageAsset(a.url));
+	const imgs = (property.assets ?? property.images ?? []).filter((a) => isImageAsset(a.url));
 	const img = imgs.find((a) => a.is_primary) ?? imgs[0];
 	return img ? imagePath(img.url) : "/placeholder.jpg";
 };
 
+// Featured properties
 const {
 	data: propertyList,
 	isLoading,
@@ -26,6 +31,53 @@ const {
 } = useFeaturedPropertyQuery(isVisible.value);
 
 const properties = computed(() => propertyList.value ?? []);
+
+// Off-plan properties
+const offplanList = ref<any[]>([]);
+const offplanLoading = ref(false);
+const offplanError = ref(false);
+
+const fetchOffplan = async () => {
+	offplanLoading.value = true;
+	offplanError.value = false;
+	try {
+		const res = await axios.get('/front/property/list', {
+			params: {
+				purpose: 'buy',
+				completion_status: 'off_plan',
+				sort_by: 'created_at',
+				sort_order: 'desc',
+				per_page: 9,
+			}
+		});
+		offplanList.value = res.data?.data?.data ?? [];
+	} catch {
+		offplanError.value = true;
+	} finally {
+		offplanLoading.value = false;
+	}
+};
+
+const switchTab = (tab: 'featured' | 'offplan') => {
+	activeTab.value = tab;
+	if (tab === 'offplan') fetchOffplan();
+};
+
+// Pre-fetch off-plan on mount so it's ready when tab is clicked
+onMounted(() => {
+	refetch();
+	fetchOffplan();
+});
+
+const displayProperties = computed(() =>
+	activeTab.value === 'featured' ? properties.value : offplanList.value
+);
+const displayLoading = computed(() =>
+	activeTab.value === 'featured' ? isLoading.value : offplanLoading.value
+);
+const displayError = computed(() =>
+	activeTab.value === 'featured' ? isError.value : offplanError.value
+);
 
 const getPropertyTypePrice = (property: any) => {
 	//console.log(property.purpose, property.price, property.property_type_slug);
@@ -47,16 +99,13 @@ const getPropertyTypePrice = (property: any) => {
 	return `${formatPrice(property.price)} AED`;
 };
 
-onMounted(() => {
-	refetch();
-});
 </script>
 
 <template>
 	<section ref="featuredPropertyRef" class="container py-24 md:py-32">
 		<!-- Skeleton Loader -->
 		<div
-			v-if="isLoading"
+			v-if="displayLoading"
 			class="grid grid-cols-1 lg:grid-cols-5 gap-12 animate-pulse"
 		>
 			<!-- Left Placeholder -->
@@ -91,7 +140,7 @@ onMounted(() => {
 
 		<!-- Error -->
 		<Error
-			v-else-if="isError"
+			v-else-if="displayError"
 			message="Failed to load properties."
 			:retry="refetch"
 		/>
@@ -101,40 +150,43 @@ onMounted(() => {
 			<!-- Left Section -->
 			<div class="lg:col-span-1">
 				<h2
-					class="text-4xl font-heading font-bold mb-6 leading-snug" style="color:#D4AF37;"
+					class="text-4xl font-heading font-bold mb-6 leading-snug" style="color:#C9A028;"
 				>
-					<span class="inline-block border-l-4 pl-3" style="border-color:#D4AF37;"
-						>featured</span
+					<span class="inline-block border-l-4 pl-3" style="border-color:#C9A028;"
+						>our</span
 					><br />
-					<span class="block font-black">properties</span>
+					<span class="block font-black">listings</span>
 				</h2>
-				<router-link
-					href="/properties"
-					class="w-full inline-flex items-center px-6 py-3 border border-gray-300 text-sm font-semibold hover:border-primary hover:text-primary transition rounded-md mb-4"
-				>
-					view all properties →
-				</router-link>
-				<!-- CTA Buttons -->
-				<div class="flex flex-col gap-4">
-					<router-link
-						to="/properties?purpose=buy"
-						class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-md text-sm font-semibold hover:border-primary hover:text-primary transition"
+
+				<!-- Tabs -->
+				<div class="flex flex-col gap-2 mb-6">
+					<button
+						@click="switchTab('featured')"
+						class="px-4 py-2 text-sm font-semibold rounded-md transition text-left"
+						:style="activeTab === 'featured'
+							? 'background:#C9A028; color:#0A0A0A;'
+							: 'border:1px solid rgba(212,175,55,0.3); color:#aaaaaa;'"
 					>
-						buy a property →
-					</router-link>
-					<router-link
-						to="/sell"
-						class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-md text-sm font-semibold hover:border-primary hover:text-primary transition"
+						Featured Properties
+					</button>
+					<button
+						@click="switchTab('offplan')"
+						class="px-4 py-2 text-sm font-semibold rounded-md transition text-left"
+						:style="activeTab === 'offplan'
+							? 'background:#C9A028; color:#0A0A0A;'
+							: 'border:1px solid rgba(212,175,55,0.3); color:#aaaaaa;'"
 					>
-						sell a property →
-					</router-link>
-					<router-link
-						to="/properties?purpose=rent"
-						class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-md text-sm font-semibold hover:border-primary hover:text-primary transition"
-					>
-						rent a property →
-					</router-link>
+						Off Plan Projects
+					</button>
 				</div>
+
+				<router-link
+					:to="activeTab === 'offplan' ? '/properties?purpose=buy&completion_status=off_plan' : '/properties'"
+					class="w-full inline-flex items-center px-6 py-3 text-sm font-semibold transition rounded-md mb-4"
+					style="border:1px solid rgba(212,175,55,0.4); color:#C9A028;"
+				>
+					view all â†’
+				</router-link>
 			</div>
 
 			<!-- Property Grid -->
@@ -143,7 +195,7 @@ onMounted(() => {
 					class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
 				>
 					<div
-						v-for="property in properties"
+						v-for="property in displayProperties"
 						:key="property.id"
 						class="relative group overflow-hidden rounded-lg shadow-sm"
 					>
@@ -188,3 +240,4 @@ onMounted(() => {
 		</div>
 	</section>
 </template>
+
