@@ -82,7 +82,7 @@ onBeforeUnmount(() => observer?.disconnect());
 					<li><router-link to="/privacy-policy" class="hover:text-secondary transition-colors">Privacy Policy</router-link></li>
 					<li><router-link to="/terms-of-service" class="hover:text-secondary transition-colors">Terms of Use</router-link></li>
 				</ul>
-				<p class="text-gray-400">&copy; 2025 Million Homes. All rights reserved.</p>
+				<p class="text-gray-400">&copy; 2026 Million Homes. All rights reserved.</p>
 			</div>
 		</div>
 	</footer>

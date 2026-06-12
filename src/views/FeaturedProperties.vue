@@ -185,7 +185,7 @@ const getPropertyTypePrice = (property: any) => {
 					class="w-full inline-flex items-center px-6 py-3 text-sm font-semibold transition rounded-md mb-4"
 					style="border:1px solid rgba(212,175,55,0.4); color:#C9A028;"
 				>
-					view all â†’
+					View All
 				</router-link>
 			</div>
 
