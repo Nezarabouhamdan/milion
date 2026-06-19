@@ -97,6 +97,11 @@ const PublicRoutes: CustomRoute[] = [
         name: "MortageCalculator",
     },
     {
+        path: "/media-center",
+        component: () => import("../views/MediaCenterPage.vue"),
+        name: "MediaCenter",
+    },
+    {
         path: "/privacy-policy",
         component: () => import("../views/PrivacyPolicyPage.vue"),
         name: "PrivacyPolicy",

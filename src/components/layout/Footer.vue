@@ -51,6 +51,7 @@ onBeforeUnmount(() => observer?.disconnect());
 					<h2 class="font-semibold text-white text-lg mb-6">Insights</h2>
 					<ul class="space-y-3 text-gray-300 text-sm">
 						<li><router-link to="/blogs" class="hover:text-secondary">Our Blog</router-link></li>
+						<li><router-link to="/media-center" class="hover:text-secondary">Media Center</router-link></li>
 						<li><router-link to="/service/mortgage-calculator" class="hover:text-secondary">{{ lang === "ja" ? "住宅ローン" : lang === "zh-CN" ? "房贷计算器" : lang === "ar" ? "حاسبة التمويل العقاري" : "Mortgage Calculator" }}</router-link></li>
 						<li><router-link to="/sell" class="hover:text-secondary">Sell Enquiry</router-link></li>
 					</ul>

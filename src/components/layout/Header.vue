@@ -91,6 +91,7 @@ const navMap: Record<string, Record<string, string>> = {
 		"Holiday Homes": "民泊運営",
 		Offplan: "新築物件",
 		Areas: "エリア",
+		"Media Center": "メディアセンター",
 	},
 	"zh-CN": {
 		Home: "首页",
@@ -103,6 +104,7 @@ const navMap: Record<string, Record<string, string>> = {
 		"Holiday Homes": "假日住宅",
 		Offplan: "期房",
 		Areas: "区域",
+		"Media Center": "媒体中心",
 	},
 	ar: {
 		Home: "الرئيسية",
@@ -115,6 +117,7 @@ const navMap: Record<string, Record<string, string>> = {
 		"Holiday Homes": "منازل العطلات",
 		Offplan: "قيد الانشاء",
 		Areas: "المناطق",
+		"Media Center": "المركز الإعلامي",
 	},
 	ru: {
 		Home: "Главная",
@@ -127,6 +130,7 @@ const navMap: Record<string, Record<string, string>> = {
 		"Holiday Homes": "Аренда жилья",
 		Offplan: "Строящиеся",
 		Areas: "Районы",
+		"Media Center": "Медиацентр",
 	},
 };
 
@@ -192,6 +196,14 @@ const menus = computed(() => {
 				subPages: PROPERTIES_SUBPAGES_MAP[key] ?? [],
 			};
 		});
+	}
+
+	// Inject Media Center right after Properties
+	const alreadyAdded = result.some((m) => m.id === -998);
+	if (!alreadyAdded) {
+		const propertiesIndex = result.findIndex((m) => m.id === -999);
+		const insertAt = propertiesIndex !== -1 ? propertiesIndex + 1 : result.length;
+		result.splice(insertAt, 0, { id: -998, name: "Media Center", link: "media-center", menus: [] });
 	}
 
 	return result;

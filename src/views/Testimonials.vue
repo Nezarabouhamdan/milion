@@ -177,18 +177,6 @@ const setActive = (index: number) => {
 			</template>
 		</div>
 
-		<!-- Indicators -->
-		<div v-if="testimonials.length" class="flex justify-center mt-8 gap-3">
-			<button
-				v-for="(_, index) in testimonials"
-				:key="index"
-				@click="setActive(index)"
-				:class="[
-					'w-3 h-3 rounded-full transition-all',
-					activeIndex === index ? 'bg-secondary w-8' : 'bg-gray-300',
-				]"
-			></button>
-		</div>
 	</section>
 </template>
 
