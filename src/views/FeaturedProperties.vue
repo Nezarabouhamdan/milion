@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
+const lang = ref(localStorage.getItem("lang") ?? "en");
 import { useIntersectionObserver } from "../composables/useIntersectionObserver";
 import { useFeaturedPropertyQuery } from "../composables/useFeaturedPropertyQuery";
 import { imagePath, formatPrice, isImageAsset } from "../utils/helpers";
@@ -151,11 +152,27 @@ const getPropertyTypePrice = (property: any) => {
 			<div class="lg:col-span-1">
 				<h2
 					class="text-4xl font-heading font-bold mb-6 leading-snug" style="color:#C9A028;"
+					translate="no"
 				>
-					<span class="inline-block border-l-4 pl-3" style="border-color:#C9A028;"
-						>our</span
-					><br />
-					<span class="block font-black">listings</span>
+					<template v-if="lang === 'ar'">
+						<span class="block font-black">عقاراتنا</span>
+					</template>
+					<template v-else-if="lang === 'ja'">
+						<span class="inline-block border-l-4 pl-3" style="border-color:#C9A028;">私たちの</span><br />
+						<span class="block font-black">物件一覧</span>
+					</template>
+					<template v-else-if="lang === 'zh-CN'">
+						<span class="inline-block border-l-4 pl-3" style="border-color:#C9A028;">我们的</span><br />
+						<span class="block font-black">房源列表</span>
+					</template>
+					<template v-else-if="lang === 'ru'">
+						<span class="inline-block border-l-4 pl-3" style="border-color:#C9A028;">наши</span><br />
+						<span class="block font-black">объекты</span>
+					</template>
+					<template v-else>
+						<span class="inline-block border-l-4 pl-3" style="border-color:#C9A028;">our</span><br />
+						<span class="block font-black">listings</span>
+					</template>
 				</h2>
 
 				<!-- Tabs -->
@@ -211,7 +228,12 @@ const getPropertyTypePrice = (property: any) => {
 
 						<!-- Text Info -->
 						<div class="absolute bottom-6 left-6 z-20 text-white">
-							<h3 class="text-lg text-white font-semibold mb-1">
+							<h3
+								class="notranslate text-lg text-white font-semibold mb-1"
+								translate="no"
+								lang="en"
+								:data-original="property.name"
+							>
 								{{ property.name }}
 							</h3>
 						</div>

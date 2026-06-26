@@ -56,6 +56,24 @@ const bioHtml = (bio: string | null | undefined) =>
 	(bio ?? '')
 		.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 		.replace(/\r?\n/g, '<br>');
+
+// Wraps known English nicknames in translate="no" spans with Arabic transliteration
+const NAME_FIXES: Record<string, string> = {
+	"Mars": "مارس",
+	"Leo":  "ليو",
+};
+
+const fixNameHtml = (name: string | null | undefined): string => {
+	if (!name) return "";
+	let result = name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	Object.entries(NAME_FIXES).forEach(([en, ar]) => {
+		result = result.replace(
+			new RegExp(`\\(${en}\\)`, "g"),
+			`<span translate="no">(${ar})</span>`
+		);
+	});
+	return result;
+};
 </script>
 
 <template>
@@ -97,9 +115,7 @@ const bioHtml = (bio: string | null | undefined) =>
 							class="w-full h-64 object-contain bg-gray-100 group-hover:scale-105 transition-transform rounded-t-2xl"
 						/>
 						<div class="p-5 text-center space-y-1">
-							<h3 class="text-lg font-bold text-gray-800">
-								{{ t(member.name, member.name_jp) }}
-							</h3>
+							<h3 class="text-lg font-bold text-gray-800" v-html="fixNameHtml(t(member.name, member.name_jp))"></h3>
 							<p class="text-sm text-gray-500">
 								{{ t(member.position, member.position_jp) }}
 							</p>
@@ -122,16 +138,9 @@ const bioHtml = (bio: string | null | undefined) =>
 
 			<DialogContent class="z-50 max-w-md bg-white">
 				<DialogHeader>
-					<DialogTitle>
-						{{ t(selectedMember?.name, selectedMember?.name_jp) }}
-					</DialogTitle>
+					<DialogTitle v-html="fixNameHtml(t(selectedMember?.name, selectedMember?.name_jp))"></DialogTitle>
 					<DialogDescription>
-						{{
-							t(
-								selectedMember?.position,
-								selectedMember?.position_jp,
-							)
-						}}
+						{{ t(selectedMember?.position, selectedMember?.position_jp) }}
 					</DialogDescription>
 				</DialogHeader>
 
@@ -160,10 +169,7 @@ const bioHtml = (bio: string | null | undefined) =>
 							target="_blank"
 							rel="noopener noreferrer"
 							class="p-3 bg-gray-100 rounded-full hover:bg-black-100 hover:text-white transition"
-							:title="
-								'Call ' +
-								t(selectedMember?.name, selectedMember?.name_jp)
-							"
+							translate="no"
 						>
 							<Phone class="w-5 h-5" />
 						</a>
@@ -178,10 +184,7 @@ const bioHtml = (bio: string | null | undefined) =>
 							target="_blank"
 							rel="noopener noreferrer"
 							class="p-3 bg-gray-100 rounded-full hover:bg-black-100 hover:text-white transition"
-							:title="
-								'WhatsApp ' +
-								t(selectedMember?.name, selectedMember?.name_jp)
-							"
+							translate="no"
 						>
 							<MessageCircle class="w-5 h-5" />
 						</a>

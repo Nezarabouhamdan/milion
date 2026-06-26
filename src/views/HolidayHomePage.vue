@@ -221,7 +221,10 @@ const primaryImage = (property: Property) => {
 						</div>
 						<div class="p-5 space-y-3">
 							<h3
-								class="font-semibold text-lg sm:text-xl text-gray-800 line-clamp-1"
+								class="notranslate font-semibold text-lg sm:text-xl text-gray-800 line-clamp-1"
+								translate="no"
+								lang="en"
+								:data-original="property.title"
 							>
 								{{ property.title }}
 							</h3>

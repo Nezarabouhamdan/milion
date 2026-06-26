@@ -46,7 +46,10 @@
 				"
 			>
 				<h3
-					class="font-semibold text-lg sm:text-xl text-gray-800 line-clamp-1"
+					class="notranslate font-semibold text-lg sm:text-xl text-gray-800 line-clamp-1"
+					translate="no"
+					lang="en"
+					:data-original="property.title"
 				>
 					{{ property.title }}
 				</h3>
@@ -92,7 +95,12 @@
 
 						<span class="flex items-center gap-1">
 							<Forklift class="w-4 h-4 text-black-600" />
-							{{ property.developer_name }}
+							<span
+								class="notranslate"
+								translate="no"
+								lang="en"
+								:data-original="property.developer_name"
+							>{{ property.developer_name }}</span>
 						</span>
 					</template>
 

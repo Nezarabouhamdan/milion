@@ -14,7 +14,8 @@
       "Bash(sed -n '48,55p' \"c:\\\\Users\\\\Khales\\\\milion\\\\src\\\\views\\\\BlogsPreview.vue\")",
       "Bash(sed -n '140,150p' \"c:\\\\Users\\\\Khales\\\\milion\\\\src\\\\views\\\\PropertySearch.vue\")",
       "PowerShell(Copy-Item \"C:\\\\Users\\\\Khales\\\\milion\\\\src\\\\assets\\\\IMG_4063.PNG\" \"C:\\\\Users\\\\Khales\\\\milion\\\\src\\\\assets\\\\IMG_4063.png\")",
-      "Bash(xargs sed -i 's/#D4AF37/#B48933/g')"
+      "Bash(xargs sed -i 's/#D4AF37/#B48933/g')",
+      "Bash(xargs grep -l \"useTeam\\\\|fetchAgent\\\\|agent API\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\Khales\\milion\\src\\assets",

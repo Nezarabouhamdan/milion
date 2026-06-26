@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref, onMounted } from "vue";
+import { computed, watch, ref, onMounted, onBeforeUnmount } from "vue";
 import { useRoute } from "vue-router";
 import { useIntersectionObserver } from "../composables/useIntersectionObserver";
 import { usePropertyDetail } from "../composables/usePropertyDetail";
@@ -14,6 +14,7 @@ import {
 	AccordionTrigger,
 	AccordionContent,
 } from "../components/ui/accordion";
+import { LANGUAGE_AGENTS } from "../config/languageAgents";
 
 const route = useRoute();
 const slug = route.params.slug as string;
@@ -29,6 +30,24 @@ const {
 } = usePropertyDetail(slug);
 
 const property = computed(() => propertyResponse.value);
+
+// Language-based agent override
+const lang = ref(localStorage.getItem("lang") ?? "en");
+let langObserver: MutationObserver;
+onMounted(() => {
+	langObserver = new MutationObserver(() => {
+		lang.value = localStorage.getItem("lang") ?? document.documentElement.lang ?? "en";
+	});
+	langObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+});
+onBeforeUnmount(() => langObserver?.disconnect());
+
+const displayAgent = computed(() => {
+	const typeSlug = property.value?.property_type_slug ?? "";
+	const override = LANGUAGE_AGENTS[lang.value]?.[typeSlug];
+	return override ?? property.value?.agent;
+});
+
 const mainImage = ref<string | null>(null);
 const showFullDescription = ref(false);
 const activeTab = ref("overview");
@@ -322,9 +341,12 @@ useSeoMeta({
 					>Properties</a
 				>
 				<lucideIcons.ChevronRight class="h-4 w-4" />
-				<span class="text-gray-700 font-medium">{{
-					property?.title
-				}}</span>
+				<span
+					class="notranslate text-gray-700 font-medium"
+					translate="no"
+					lang="en"
+					:data-original="property?.title"
+				>{{ property?.title }}</span>
 			</div>
 
 			<!-- Property Header -->
@@ -339,7 +361,12 @@ useSeoMeta({
 						class="flex items-center"
 					>
 						<lucideIcons.User class="h-4 w-4 mr-2 text-primary" />
-						<span>Developer: {{ property.developer_name }}</span>
+						Developer: <span
+							class="notranslate"
+							translate="no"
+							lang="en"
+							:data-original="property.developer_name"
+						>{{ property.developer_name }}</span>
 					</div>
 					<div
 						v-if="property?.off_plans?.[0]?.handover"
@@ -377,7 +404,10 @@ useSeoMeta({
 					<!-- Title & Info -->
 					<div class="w-full sm:w-auto">
 						<h1
-							class="text-2xl sm:text-4xl font-bold text-gray-900 mb-2"
+							class="notranslate text-2xl sm:text-4xl font-bold text-gray-900 mb-2"
+							translate="no"
+							lang="en"
+							:data-original="property?.title"
 						>
 							{{ property?.title }}
 						</h1>
@@ -571,7 +601,7 @@ useSeoMeta({
 						</div>
 						<div>
 							<p class="text-gray-500 text-sm">{{ label }}</p>
-							<p class="font-semibold">{{ value }}</p>
+							<p class="font-semibold" :translate="label === 'Developer' ? 'no' : undefined">{{ value }}</p>
 						</div>
 					</div>
 				</div>
@@ -1492,18 +1522,14 @@ useSeoMeta({
 								}}
 							</button>
 						</div>
-						<div class="mt-6 pt-6 border-t">
+						<div class="mt-6 pt-6 border-t" translate="no">
 							<div class="flex items-center mb-4">
 								<div
 									class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden flex-shrink-0 mr-3"
 								>
 									<img
-										v-if="property?.agent?.image"
-										:src="
-											imagePath(
-												property?.agent.image?.url,
-											)
-										"
+										v-if="displayAgent?.image"
+										:src="imagePath(displayAgent.image?.url)"
 										alt="Agent"
 										class="w-full h-full object-cover"
 									/>
@@ -1512,36 +1538,32 @@ useSeoMeta({
 										class="w-full h-full p-2 text-gray-500"
 									/>
 								</div>
-								<div>
+								<div translate="no">
 									<p class="font-medium">
-										{{
-											property?.agent?.name ||
-											"Property Agent"
-										}}
+										{{ displayAgent?.name || "Property Agent" }}
 									</p>
 									<p class="text-sm text-gray-500">
-										{{
-											property?.agent?.designation ||
-											"Real Estate Agent"
-										}}
+										{{ displayAgent?.designation || "Real Estate Agent" }}
 									</p>
 								</div>
 							</div>
 							<div class="space-y-2">
 								<a
-									v-if="property?.agent?.phone_number"
-									:href="`tel:${property?.agent.phone_number}`"
+									v-if="displayAgent?.phone_number"
+									:href="`tel:${displayAgent.phone_number}`"
 									class="w-full border border-gray-200 py-2.5 px-4 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center"
+									translate="no"
 								>
 									<lucideIcons.Phone
 										class="h-4 w-4 mr-2 text-primary"
 									/>
-									{{ property?.agent.phone_number }}
+									{{ displayAgent.phone_number }}
 								</a>
 								<a
-									v-if="property?.agent?.whatsapp_number"
-									:href="`https://wa.me/${property?.agent.whatsapp_number.replace(/\s+/g, '')}`"
+									v-if="displayAgent?.whatsapp_number"
+									:href="`https://wa.me/${displayAgent.whatsapp_number.replace(/\s+/g, '')}`"
 									class="w-full border border-gray-200 py-2.5 px-4 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center"
+									translate="no"
 								>
 									<lucideIcons.MessageSquare
 										class="h-4 w-4 mr-2 text-green-500"
@@ -1549,21 +1571,23 @@ useSeoMeta({
 									WhatsApp
 								</a>
 								<a
-									v-if="property?.agent?.email"
-									:href="`mailto:${property?.agent.email}`"
+									v-if="displayAgent?.email"
+									:href="`mailto:${displayAgent.email}`"
 									class="w-full border border-gray-200 py-2.5 px-4 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center"
+									translate="no"
 								>
 									<lucideIcons.Mail
 										class="h-4 w-4 mr-2 text-primary"
 									/>
-									Email
+									{{ displayAgent.email }}
 								</a>
 							</div>
 							<p
-								v-if="property?.agent?.rera_number"
+								v-if="displayAgent?.rera_number"
 								class="text-xs text-gray-500 mt-3"
+								translate="no"
 							>
-								RERA: {{ property?.agent.rera_number }}
+								RERA: {{ displayAgent.rera_number }}
 							</p>
 						</div>
 					</div>

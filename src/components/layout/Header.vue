@@ -140,6 +140,7 @@ const getMenuName = (name: string) => navMap[lang.value]?.[name] ?? name;
 const { data: menusRaw } = useMenuQuery(true);
 
 const PROPERTIES_NAMES = new Set(["buy", "sell", "rent", "offplan", "holiday homes"]);
+const HIDDEN_MENUS = new Set(["highlights", "highlight", "featured"]);
 
 const PROPERTIES_LINK_MAP: Record<string, string> = {
 	"buy":          "properties?purpose=buy",
@@ -173,7 +174,9 @@ const menus = computed(() => {
 	let propertiesInserted = false;
 
 	for (const menu of raw) {
-		const nameLower = (menu.name ?? "").toLowerCase();
+		const nameLower = (menu.name ?? "").toLowerCase().trim();
+		if (HIDDEN_MENUS.has(nameLower) || nameLower.includes("highlight")) continue;
+		if (menu.status === "inactive" || menu.status === 0 || menu.status === false) continue;
 		if (PROPERTIES_NAMES.has(nameLower)) {
 			propertiesItems.push(menu);
 			if (!propertiesInserted) {
@@ -241,7 +244,7 @@ const menuImageUrl = (menu: any) => {
 <template>
 	<header class="bg-black-100 text-white sticky top-0 z-50 header-luxury">
 		<div
-			class="container mx-auto flex items-center py-5 px-4 gap-4"
+			class="container mx-auto flex items-center py-5 px-4 gap-4 header-inner"
 		>
 			<!-- Mobile Toggle -->
 			<div class="flex items-center lg:hidden">
@@ -257,7 +260,7 @@ const menuImageUrl = (menu: any) => {
 			</div>
 
 			<!-- Logo -->
-			<div class="mx-auto lg:mx-0 flex-shrink-0 lg:flex-1">
+			<div class="mx-auto lg:mx-0 flex-shrink-0 lg:flex-1 lg:min-w-[200px]">
 				<router-link to="/" class="block">
 					<img
 						:src="logoWhite1"
@@ -271,9 +274,9 @@ const menuImageUrl = (menu: any) => {
 			<!-- Desktop Nav -->
 			<nav class="hidden lg:flex justify-center px-4 xl:px-8">
 				<ul class="flex space-x-2 justify-center">
+					<template v-for="menu in menus" :key="menu.id">
 					<li
-						v-for="menu in menus"
-						:key="menu.id"
+						v-if="menu.status !== 'inactive' && !menu.name?.toLowerCase().includes('highlight')"
 						class="relative group"
 					>
 						<template v-if="hasSubMenus(menu)">
@@ -303,7 +306,7 @@ const menuImageUrl = (menu: any) => {
 											:key="cat.id"
 										>
 											<div
-												v-if="index > 0"
+												v-if="(index as number) > 0"
 												class="mx-4 border-t"
 												style="border-color: rgba(255,255,255,0.06)"
 											></div>
@@ -392,15 +395,7 @@ const menuImageUrl = (menu: any) => {
 							<span class="gold-gradient-text">{{ getMenuName(menu.name) }}</span>
 						</router-link>
 					</li>
-					<li v-if="lang === 'ja'">
-						<a
-							href="https://jp.millionhomes.ae"
-							target="_blank"
-							class="px-1 xl:px-2 2xl:px-4 py-2 text-sm xl:text-base text-nowrap hover:text-secondary transition-colors flex items-center font-medium"
-						>
-							highlights
-						</a>
-					</li>
+					</template>
 				</ul>
 			</nav>
 
@@ -642,6 +637,10 @@ const menuImageUrl = (menu: any) => {
 </template>
 
 <style scoped>
+/* ── RTL fix: keep navbar layout always LTR ───── */
+:host-context([dir="rtl"]) .header-inner,
+[dir="rtl"] .header-inner { direction: ltr; }
+
 /* ── Scrollbar ─────────────────────────────────── */
 .scrollbar-hidden::-webkit-scrollbar { display: none !important; }
 .scrollbar-hidden { scrollbar-width: none !important; -ms-overflow-style: none !important; }

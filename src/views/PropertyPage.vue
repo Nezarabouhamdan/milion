@@ -769,7 +769,10 @@ onMounted(syncFiltersFromRoute);
 												"
 											/>
 											<span
-												class="truncate font-medium"
+												class="notranslate truncate font-medium"
+												translate="no"
+												lang="en"
+												:data-original="property.title"
 												>{{ property.title }}</span
 											>
 											<span
