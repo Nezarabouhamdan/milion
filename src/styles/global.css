@@ -1,0 +1,466 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--background: 249 249 249;
+		--foreground: 10 10 10;
+		--card: 255 255 255;
+		--card-foreground: 10 10 10;
+		--popover: 255 255 255;
+		--popover-foreground: 10 10 10;
+		--primary: 10 10 10;
+		--primary-foreground: 255 255 255;
+		--secondary: 212 175 55;
+		--secondary-foreground: 10 10 10;
+		--muted: 241 241 241;
+		--muted-foreground: 102 102 102;
+		--accent: 60 60 60;
+		--accent-foreground: 255 255 255;
+		--destructive: 239 68 68;
+		--destructive-foreground: 255 255 255;
+		--border: 229 229 229;
+		--input: 229 229 229;
+		--ring: 212 175 55;
+		--radius: 0;
+	}
+
+	.dark {
+		--background: 10 10 10;
+		--foreground: 249 249 249;
+		--card: 20 20 20;
+		--card-foreground: 249 249 249;
+		--popover: 20 20 20;
+		--popover-foreground: 249 249 249;
+		--primary: 249 249 249;
+		--primary-foreground: 10 10 10;
+		--secondary: 212 175 55;
+		--secondary-foreground: 10 10 10;
+		--muted: 40 40 40;
+		--muted-foreground: 180 180 180;
+		--accent: 60 60 60;
+		--accent-foreground: 249 249 249;
+		--destructive: 127 29 29;
+		--destructive-foreground: 249 249 249;
+		--border: 40 40 40;
+		--input: 40 40 40;
+		--ring: 212 175 55;
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+
+	body {
+		@apply bg-background text-foreground font-sans antialiased;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	/* Smooth scrolling */
+	html {
+		@apply scroll-smooth;
+	}
+
+	/* Typography */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply font-heading tracking-tight;
+		letter-spacing: -0.01em;
+	}
+
+	h1 {
+		@apply text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1];
+	}
+
+	h2 {
+		@apply text-3xl md:text-5xl lg:text-6xl font-semibold leading-tight;
+	}
+
+	h3 {
+		@apply text-2xl md:text-4xl lg:text-5xl font-medium leading-tight;
+	}
+
+	h4 {
+		@apply text-xl md:text-3xl lg:text-4xl font-medium;
+	}
+
+	h5 {
+		@apply text-lg md:text-2xl font-medium;
+	}
+
+	.text-lead {
+		@apply text-lg md:text-xl text-muted-foreground font-light leading-relaxed;
+	}
+
+	.text-gold {
+		@apply text-secondary hover:text-secondary/80 transition-colors duration-300;
+	}
+
+	p {
+		@apply mb-4 leading-relaxed;
+	}
+
+	small {
+		@apply text-xs tracking-wider;
+	}
+
+	/* Selection styles */
+	::selection {
+		@apply bg-secondary text-secondary-foreground;
+	}
+}
+
+@layer components {
+
+	/* Buttons */
+	.btn {
+		@apply inline-flex items-center justify-center whitespace-nowrap rounded-none text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 uppercase tracking-wider;
+	}
+
+	.btn-primary {
+		@apply bg-primary text-primary-foreground hover:bg-primary/90 py-4 px-8;
+	}
+
+	.btn-secondary {
+		@apply bg-secondary text-secondary-foreground hover:bg-secondary/90 py-4 px-8;
+	}
+
+	.btn-outline {
+		@apply border border-primary text-primary hover:bg-primary hover:text-primary-foreground py-4 px-8;
+	}
+
+	.btn-ghost {
+		@apply border border-transparent hover:border-secondary text-primary hover:text-secondary py-4 px-8 transition-all duration-300;
+	}
+
+	.btn-circle {
+		@apply w-12 h-12 flex items-center justify-center rounded-full border border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground transition-all duration-300;
+	}
+
+	.btn-icon {
+		@apply inline-flex items-center gap-2;
+	}
+
+	/* Cards & Containers */
+	.property-card {
+		@apply bg-card rounded-none border border-border shadow-card overflow-hidden transition-all duration-500 hover:shadow-card-hover group;
+	}
+
+	.feature-card {
+		@apply bg-card rounded-none border-l-2 border-secondary p-8 shadow-subtle hover:shadow-card transition-all duration-300;
+	}
+
+	.container-luxury {
+		@apply max-w-7xl mx-auto px-6 lg:px-10;
+	}
+
+	/* Navigation */
+	.nav-link {
+		@apply relative uppercase text-sm tracking-widest font-medium transition-colors duration-300 hover:text-secondary;
+	}
+
+	.nav-link-underline {
+		@apply relative text-sm uppercase tracking-wider after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-secondary after:transition-all after:duration-300 hover:after:w-full;
+	}
+
+	/* Sections */
+	.section {
+		@apply py-24 lg:py-32;
+	}
+
+	.section-luxury {
+		@apply py-24 lg:py-36 relative overflow-hidden;
+	}
+
+	.section-title {
+		@apply relative font-heading mb-12;
+	}
+
+	.section-title-bar {
+		@apply relative pb-6 mb-12 after:absolute after:bottom-0 after:left-0 after:w-20 after:h-0.5 after:bg-secondary;
+	}
+
+	.section-title-center {
+		@apply relative pb-6 mb-12 text-center after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-secondary;
+	}
+
+	/* Hero */
+	.hero {
+		@apply relative min-h-screen flex items-center bg-cover bg-center bg-no-repeat;
+		background-blend-mode: overlay;
+	}
+
+	.hero-luxury {
+		@apply relative min-h-screen flex items-center justify-center bg-cover bg-center;
+	}
+
+	.hero-content {
+		@apply relative z-10 max-w-3xl animate-fade-in;
+	}
+
+	/* Overlays */
+	.image-overlay {
+		@apply relative overflow-hidden before:absolute before:inset-0 before:bg-black-100/60 before:opacity-0 before:transition-opacity before:duration-500 group-hover:before:opacity-100 before:z-10;
+	}
+
+	.property-overlay {
+		@apply absolute inset-0 bg-gradient-to-t from-black-100/80 via-black-100/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10;
+	}
+
+	/* Animations */
+	.animate-in {
+		animation: fadeIn 0.8s ease-out forwards;
+	}
+
+	.animate-up {
+		animation: slideUp 1s ease-out forwards;
+	}
+
+	.animate-delay-100 {
+		animation-delay: 100ms;
+	}
+
+	.animate-delay-200 {
+		animation-delay: 200ms;
+	}
+
+	.animate-delay-300 {
+		animation-delay: 300ms;
+	}
+
+	/* Forms */
+	.input {
+		@apply flex h-12 w-full rounded-none border-b border-input bg-transparent px-4 py-3 text-sm transition-all duration-300 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-secondary disabled:cursor-not-allowed disabled:opacity-50;
+	}
+
+	.textarea {
+		@apply flex w-full rounded-none border-b border-input bg-transparent px-4 py-3 text-sm transition-all duration-300 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-secondary disabled:cursor-not-allowed disabled:opacity-50 min-h-24 resize-none;
+	}
+
+	.form-label {
+		@apply text-xs uppercase tracking-wider text-muted-foreground mb-1;
+	}
+
+	.select {
+		@apply flex h-12 w-full rounded-none border-b border-input bg-transparent px-4 py-3 text-sm transition-all duration-300 focus-visible:outline-none focus-visible:border-secondary disabled:cursor-not-allowed disabled:opacity-50 appearance-none;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 1rem center;
+	}
+
+	/* Special effects */
+	.gold-hover {
+		@apply transition-all duration-300 hover:text-secondary;
+	}
+
+	.gold-underline {
+		@apply relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-secondary after:transition-all after:duration-500 hover:after:w-full;
+	}
+
+	.decorative-line {
+		@apply block w-20 h-0.5 bg-secondary;
+	}
+
+	.number-badge {
+		@apply flex items-center justify-center w-16 h-16 bg-secondary text-black-100 text-2xl font-bold;
+	}
+
+	.gold-badge {
+		@apply bg-secondary text-black-100 py-2 px-4 uppercase text-xs font-bold tracking-wider;
+	}
+
+	.luxury-badge {
+		@apply absolute top-4 left-4 bg-secondary text-secondary-foreground px-4 py-2 text-xs font-bold uppercase tracking-wider z-20 shadow-gold;
+	}
+
+	/* Gallery */
+	.gallery-grid {
+		@apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+	}
+
+	/* Search */
+	.search-panel {
+		@apply bg-card shadow-card p-6 lg:p-10 border-t-2 border-secondary;
+	}
+}
+
+@layer utilities {
+
+	/* Layout */
+	.container-wide {
+		@apply max-w-screen-2xl mx-auto px-6 lg:px-10;
+	}
+
+	/* Text */
+	.text-balance {
+		text-wrap: balance;
+	}
+
+	/* Effects */
+	.gold-glow {
+		box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+	}
+
+	.hover-lift {
+		@apply transition-transform duration-300 hover:-translate-y-2;
+	}
+
+	.hover-scale {
+		@apply transition-transform duration-300 hover:scale-105;
+	}
+
+	.image-scale {
+		@apply transition-transform duration-700 ease-out group-hover:scale-105;
+	}
+
+	.image-zoom {
+		@apply scale-100 transition-transform duration-1000 ease-out group-hover:scale-110;
+	}
+
+	/* Hide scrollbar but keep functionality */
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+
+	/* Custom grid for property listings */
+	.properties-grid {
+		@apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+	}
+
+	/* Special text effects */
+	.text-stroke {
+		-webkit-text-stroke: 1px theme("colors.secondary.DEFAULT");
+		text-stroke: 1px theme("colors.secondary.DEFAULT");
+		color: transparent;
+	}
+
+	.text-outline {
+		-webkit-text-stroke: 1px rgb(var(--foreground));
+		text-stroke: 1px rgb(var(--foreground));
+		color: transparent;
+	}
+
+	.text-gradient {
+		background: linear-gradient(to right, rgb(var(--secondary)), #f2dc9e);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		color: transparent;
+	}
+
+	/* For decorative elements */
+	.gold-separator {
+		@apply w-16 h-0.5 bg-secondary mx-auto my-6;
+	}
+
+	.decorative-corner {
+		@apply absolute w-12 h-12 border-t-2 border-l-2 border-secondary top-6 left-6;
+	}
+
+	.decorative-corner-br {
+		@apply absolute w-12 h-12 border-b-2 border-r-2 border-secondary bottom-6 right-6;
+	}
+
+	/* For testimonials */
+	.quote-mark {
+		@apply text-6xl text-secondary/20 absolute -top-6 -left-2 font-serif;
+		content: '"';
+	}
+
+	/* For filters */
+	.filter-active {
+		@apply text-secondary border-b-2 border-secondary;
+	}
+
+	/* Reveal animations */
+	.reveal-bottom {
+		@apply relative overflow-hidden;
+	}
+
+	.reveal-bottom::after {
+		@apply absolute inset-0 bg-background transform translate-y-full transition-transform duration-700 ease-in-out group-hover:translate-y-0;
+		content: "";
+	}
+}
+
+/* ── RTL (Arabic) overrides ─────────────────────────────────────── */
+[dir="rtl"] body {
+	font-family: 'Cairo', 'Inter', sans-serif;
+}
+
+[dir="rtl"] {
+	text-align: right;
+}
+
+/* Flip nav-link underline decorators that anchor to left */
+[dir="rtl"] .nav-link-underline::after,
+[dir="rtl"] .section-title::after,
+[dir="rtl"] .section-title-bar::after,
+[dir="rtl"] .gold-underline::after,
+[dir="rtl"] .feature-card::before {
+	left: auto;
+	right: 0;
+}
+
+/* Section title centered bar stays centered */
+[dir="rtl"] .section-title-center::after {
+	left: 50%;
+	right: auto;
+	transform: translateX(50%);
+}
+
+/* Luxury badge (top-left → top-right in RTL) */
+[dir="rtl"] .luxury-badge {
+	left: auto;
+	right: 1.5rem;
+}
+
+/* Decorative corner (top-left → top-right) */
+[dir="rtl"] .decorative-corner {
+	left: auto;
+	right: 1.5rem;
+	border-left: none;
+	border-right: 2px solid rgb(var(--secondary));
+}
+
+/* Nav dropdown panel: anchored left-0, flip to right-0 in RTL */
+[dir="rtl"] .nav-dropdown-panel {
+	left: auto;
+	right: 0;
+}
+
+/* Language dropdown already uses right-0 — fine in RTL */
+
+/* Reverse Tailwind space-x utilities inside RTL containers */
+[dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]),
+[dir="rtl"] .space-x-3 > :not([hidden]) ~ :not([hidden]),
+[dir="rtl"] .space-x-4 > :not([hidden]) ~ :not([hidden]),
+[dir="rtl"] .space-x-6 > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-x-reverse: 1;
+}
+
+/* Property search bg position arrow */
+[dir="rtl"] .select {
+	background-position: left 1rem center;
+	padding-right: 1rem;
+	padding-left: 2.5rem;
+}
