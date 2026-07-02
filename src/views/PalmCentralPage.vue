@@ -43,39 +43,49 @@ const units = [
 ];
 
 
-const countryOptions = [
-    { flag: "🇦🇪", code: "+971", label: "AE" },
-    { flag: "🇬🇧", code: "+44",  label: "UK" },
-];
-
 const budgetOptions = [
-    "AED 2M – 4M",
-    "AED 4M – 6M",
-    "AED 6M – 10M",
-    "AED 10M – 15M",
-    "AED 15M+",
+    "AED 2M – 5M",
+    "AED 5M – 10M",
+    "AED 10M+",
 ];
 
-const formData = ref({ name: "", email: "", phone: "", countryCode: "+971", budget: "" });
+const formData = ref({ name: "", email: "", phone: "", budget: "" });
+const errors   = ref({ name: "", email: "", phone: "", budget: "" });
 const isSubmitting = ref(false);
-const submitted = ref(false);
+const submitted    = ref(false);
+
+function isValidEmail(v: string) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+}
+function isValidUkPhone(v: string) {
+    const c = v.replace(/[\s\-().]/g, "");
+    return /^(07\d{9}|0[1-9]\d{8,9})$/.test(c);
+}
+function validate(): boolean {
+    errors.value.name   = formData.value.name.trim().length < 2 ? "Please enter your full name."                : "";
+    errors.value.email  = !isValidEmail(formData.value.email)    ? "Please enter a valid email address."        : "";
+    errors.value.phone  = !isValidUkPhone(formData.value.phone)  ? "Enter a valid UK number, e.g. 07700 900000." : "";
+    errors.value.budget = !formData.value.budget                 ? "Please select a budget range."              : "";
+    return !errors.value.name && !errors.value.email && !errors.value.phone && !errors.value.budget;
+}
 
 async function submitForm() {
-    const { name, email, phone, countryCode, budget } = formData.value;
-    if (!name || !email || !phone) return;
+    if (!validate()) return;
     isSubmitting.value = true;
+    const { name, email, phone, budget } = formData.value;
+    const fullPhone = "+44" + phone.replace(/^0/, "").replace(/[\s\-().]/g, "");
     (window as any).dataLayer = (window as any).dataLayer || [];
     (window as any).dataLayer.push({ event: "generate_lead", form_name: "palm_central_inquiry", project: "Palm Central", developer: "Nakheel", budget });
     try {
         if (GHL_WEBHOOK !== "YOUR_GOHIGHLEVEL_WEBHOOK_URL_HERE") {
             await fetch(GHL_WEBHOOK, {
                 method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ firstName: name.split(" ")[0], lastName: name.split(" ").slice(1).join(" "), email, phone: countryCode + phone, customField: { budget, project: "Palm Central – Nakheel", source: "Landing Page" }, tags: ["palm-central","nakheel","website-lead"] }),
+                body: JSON.stringify({ firstName: name.trim().split(" ")[0], lastName: name.trim().split(" ").slice(1).join(" "), email: email.trim(), phone: fullPhone, customField: { budget, project: "Palm Central – Nakheel", source: "Landing Page" }, tags: ["palm-central","nakheel","website-lead"] }),
             });
         }
     } catch (e) { console.error(e); }
     isSubmitting.value = false;
-    submitted.value = true;
+    submitted.value    = true;
 }
 </script>
 
@@ -115,29 +125,46 @@ async function submitForm() {
                         <form class="pc-glass-form" @submit.prevent="submitForm" novalidate>
                             <div class="pc-glass-field">
                                 <label>Full Name <span class="req">*</span></label>
-                                <input v-model="formData.name"  type="text"  placeholder="Enter Your Full Name"    required />
+                                <input
+                                    v-model="formData.name"
+                                    type="text"
+                                    placeholder="Enter Your Full Name"
+                                    :class="{ 'pc-input-error': errors.name }"
+                                    @input="errors.name = ''"
+                                />
+                                <span v-if="errors.name" class="pc-field-error">{{ errors.name }}</span>
                             </div>
                             <div class="pc-glass-field">
                                 <label>Email <span class="req">*</span></label>
-                                <input v-model="formData.email" type="email" placeholder="Enter Your Email Address" required />
+                                <input
+                                    v-model="formData.email"
+                                    type="email"
+                                    placeholder="Enter Your Email Address"
+                                    :class="{ 'pc-input-error': errors.email }"
+                                    @input="errors.email = ''"
+                                />
+                                <span v-if="errors.email" class="pc-field-error">{{ errors.email }}</span>
                             </div>
                             <div class="pc-glass-field">
                                 <label>Phone Number <span class="req">*</span></label>
-                                <div class="pc-phone-row">
-                                    <select v-model="formData.countryCode" class="pc-phone-select">
-                                        <option v-for="c in countryOptions" :key="c.code" :value="c.code">
-                                            {{ c.flag }} {{ c.code }}
-                                        </option>
-                                    </select>
-                                    <input v-model="formData.phone" type="tel" placeholder="50 123 4567" required />
+                                <div class="pc-phone-row" :class="{ 'pc-input-error': errors.phone }">
+                                    <span class="pc-phone-prefix">+44</span>
+                                    <input
+                                        v-model="formData.phone"
+                                        type="tel"
+                                        placeholder="07700 900000"
+                                        @input="errors.phone = ''"
+                                    />
                                 </div>
+                                <span v-if="errors.phone" class="pc-field-error">{{ errors.phone }}</span>
                             </div>
                             <div class="pc-glass-field">
-                                <label>Budget</label>
-                                <select v-model="formData.budget" class="pc-budget-select">
+                                <label>Budget <span class="req">*</span></label>
+                                <select v-model="formData.budget" :class="{ 'pc-input-error': errors.budget }" @change="errors.budget = ''">
                                     <option value="" disabled>Select your budget</option>
                                     <option v-for="b in budgetOptions" :key="b" :value="b">{{ b }}</option>
                                 </select>
+                                <span v-if="errors.budget" class="pc-field-error">{{ errors.budget }}</span>
                             </div>
                             <button type="submit" :disabled="isSubmitting">
                                 {{ isSubmitting ? "Sending…" : "Submit" }}
@@ -491,7 +518,7 @@ async function submitForm() {
     background: #ffffff;
     border: none;
     border-radius: 4px;
-    padding: 0.75rem 1rem;
+    padding: 0.78rem 1rem;
     font-family: var(--sans);
     font-size: 0.88rem;
     font-weight: 300;
@@ -501,56 +528,69 @@ async function submitForm() {
     appearance: none;
     -webkit-appearance: none;
 }
+.pc-phone-row .pc-glass-field input,
+.pc-phone-row input {
+    padding: 0.78rem 0.85rem;
+    width: auto;
+}
 .pc-glass-field input:focus,
 .pc-glass-field select:focus {
-    box-shadow: 0 0 0 2px rgba(37,99,235,0.5);
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.45);
 }
-.pc-glass-field input::placeholder { color: rgba(22,19,14,0.38); }
-.pc-glass-field select { cursor: pointer; color: rgba(22,19,14,0.5); }
+.pc-glass-field input::placeholder { color: rgba(22,19,14,0.35); }
+.pc-glass-field select { cursor: pointer; color: rgba(22,19,14,0.45); }
 .pc-glass-field select:valid { color: var(--ink); }
+
+.pc-input-error,
+.pc-phone-row.pc-input-error {
+    box-shadow: 0 0 0 2px rgba(220,38,38,0.55) !important;
+    border-radius: 4px;
+}
+.pc-field-error {
+    font-size: 0.66rem;
+    color: #fca5a5;
+    margin-top: 3px;
+    display: block;
+}
 
 .pc-phone-row {
     display: flex;
+    align-items: stretch;
     background: #ffffff;
     border-radius: 4px;
     overflow: hidden;
+    min-height: 44px;
 }
-.pc-phone-select {
-    flex-shrink: 0;
-    width: auto;
-    padding: 0 0.6rem;
-    background: #f0f0f0;
-    border: none;
-    border-right: 1px solid var(--line);
-    border-radius: 0;
-    font-size: 0.82rem;
-    font-weight: 400;
-    color: var(--ink);
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-}
-.pc-budget-select {
-    width: 100%;
-    background: #ffffff;
-    border: none;
-    border-radius: 4px;
-    padding: 0.75rem 1rem;
-    font-family: var(--sans);
-    font-size: 0.88rem;
+.pc-optional {
+    font-size: 0.64rem;
     font-weight: 300;
-    color: rgba(22,19,14,0.5);
-    outline: none;
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
+    color: rgba(255,255,255,0.42);
+    margin-left: 3px;
 }
-.pc-budget-select:valid { color: var(--ink); }
+.pc-phone-prefix {
+    display: flex;
+    align-items: center;
+    padding: 0 0.9rem;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: #444;
+    border-right: 1px solid #d4d4d4;
+    white-space: nowrap;
+    flex-shrink: 0;
+    background: #f0f0f0;
+    line-height: 1;
+    align-self: stretch;
+}
 .pc-phone-row input {
-    border-radius: 0;
     flex: 1;
-    padding-left: 0.75rem;
+    min-width: 0;
+    border-radius: 0;
+    background: #ffffff;
+    padding-left: 0.85rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: auto;
+    align-self: stretch;
 }
 .pc-phone-row input:focus { box-shadow: none; }
 
@@ -1029,4 +1069,18 @@ async function submitForm() {
     .pc-am-item:nth-last-child(-n+3) { border-bottom: none; }
     .pc-gallery__grid { grid-template-columns: repeat(2, 1fr); }
     .pc-cta__inner { flex-direction: column; gap: 1.5rem; text-align: center; padding: 0 2rem; }
-    .pc-footer { flex-di
+    .pc-footer { flex-direction: column; }
+}
+
+@media (max-width: 540px) {
+    .pc-hero__tagline { font-size: clamp(2.8rem, 16vw, 4.5rem); }
+    .pc-gallery__grid { grid-template-columns: 1fr; }
+    .pc-am-grid { grid-template-columns: repeat(2, 1fr); }
+    .pc-am-item:nth-child(3n) { border-right: 1px solid rgba(255,255,255,0.1); }
+    .pc-am-item:nth-child(2n) { border-right: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pc-hero__bg { animation: none; }
+}
+</style>
