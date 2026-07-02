@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const GHL_WEBHOOK = "YOUR_GOHIGHLEVEL_WEBHOOK_URL_HERE";
+const GHL_WEBHOOK = "https://services.leadconnectorhq.com/hooks/hRYeaoSXr2HJVUM9mbzj/webhook-trigger/581684b7-84a6-4dbf-a1e5-c0f1a096324a";
 
 const HERO_IMG   = "https://www.nakheel.com/images/nakheelcorporatelibraries/developments/projects/palm-central_image-03.jpg?sfvrsn=2eabbc59_1";
 const AERIAL_IMG = "https://www.nakheel.com/images/nakheelcorporatelibraries/construction-updates/palm-jebel-ali_banner1_apr-26.jpg?sfvrsn=324b30ac_1";
