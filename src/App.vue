@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
+import { useRoute } from "vue-router";
 import Layout from "./Layout.vue";
 import Toaster from "./components/toaster/Toaster.vue";
+
+const route = useRoute();
 
 onMounted(() => {
 	// When Google Translate widget ignores `class="notranslate"` on dynamically
@@ -29,7 +32,8 @@ onMounted(() => {
 });
 </script>
 <template>
-	<Layout>
+	<RouterView v-if="route.meta?.noLayout" />
+	<Layout v-else>
 		<RouterView />
 		<Toaster />
 	</Layout>

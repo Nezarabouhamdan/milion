@@ -8,7 +8,7 @@ export interface CustomRoute {
 	meta?: Record<string, any>;
 }
 
-const routerRoutes = PublicRoutes.map((route: CustomRoute) => ({
+export const routes = PublicRoutes.map((route: CustomRoute) => ({
 	path: route.path,
 	component: route.component,
 	name: route.name,
@@ -17,7 +17,7 @@ const routerRoutes = PublicRoutes.map((route: CustomRoute) => ({
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
-	routes: routerRoutes,
+	routes,
 });
 
 router.beforeEach((to, from, next) => {

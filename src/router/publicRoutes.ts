@@ -123,6 +123,12 @@ const PublicRoutes: CustomRoute[] = [
         meta: { noLayout: true },
     },
     {
+        path: "/palm-central/thank-you",
+        component: () => import("../views/PalmCentralThankYouPage.vue"),
+        name: "PalmCentralThankYou",
+        meta: { noLayout: true },
+    },
+    {
         path: "/:pathMatch(.*)*",
         component: () => import("../views/NotFoundPage.vue"),
         name: "NotFound",

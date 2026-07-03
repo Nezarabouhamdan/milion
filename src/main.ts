@@ -1,39 +1,53 @@
-import { createApp } from "vue";
+import { ViteSSG } from "vite-ssg";
 import { createPinia } from "pinia";
-
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import VueTelInput from "vue-tel-input";
 import "vue-tel-input/vue-tel-input.css";
-
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 import "./style.css";
 import "./fonts.css";
 
 import App from "./App.vue";
-import router from "./router";
+import PublicRoutes from "./router/publicRoutes";
 import { VueQueryPlugin } from "@tanstack/vue-query";
 import Loader from "./components/common/Loader.vue";
 import ErrorComponent from "./components/common/Error.vue";
 
-import { createHead } from "@unhead/vue/client";
+export const createApp = ViteSSG(
+    App,
+    { routes: PublicRoutes, scrollBehavior: () => ({ top: 0 }) },
+    ({ app, router, isClient }) => {
+        const pinia = createPinia();
+        pinia.use(piniaPluginPersistedstate);
+        app.use(pinia);
 
-const app = createApp(App);
-const pinia = createPinia();
-const head = createHead();
+        app.use(VueQueryPlugin);
 
-pinia.use(piniaPluginPersistedstate);
+        // VueTelInput uses browser APIs — client only
+        if (isClient) {
+            app.use(VueTelInput);
+        }
 
-app.use(pinia);
-app.use(router);
-app.use(head);
-app.use(VueQueryPlugin);
-app.use(VueTelInput);
+        app.component("Loader", Loader);
+        app.component("ErrorComponent", ErrorComponent);
 
-app.component("Loader", Loader);
-app.component("Error", ErrorComponent);
+        // Scroll to top on every route change
+        router.beforeEach((to, from, next) => {
+            if (isClient) window.scrollTo(0, 0);
+            next();
+        });
 
-import { useSettingsStore } from "./stores/settingsStore";
-const settingsStore = useSettingsStore();
-settingsStore.loadSettings();
-
-app.mount("#app");
+        // Settings store — skip on noLayout pages (e.g. /palm-central) to avoid an
+        // unnecessary API call in the LCP critical window.
+        if (isClient) {
+            router.isReady().then(() => {
+                if (!router.currentRoute.value.meta?.noLayout) {
+                    import("./stores/settingsStore").then(({ useSettingsStore }) => {
+                        const settingsStore = useSettingsStore();
+                        settingsStore.loadSettings();
+                    });
+                }
+            });
+        }
+    }
+);

@@ -1,0 +1,102 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Disable directory listing
+  Options -Indexes
+
+  # HTTPS redirect
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  #######################
+  # 1. SEO Route for Bots
+  # /property/{slug} → Laravel route defined in web.php
+  #######################
+  RewriteCond %{REQUEST_URI} ^/property/[^/]+$
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^property/(.*)$ api/index.php [L,QSA]
+
+  #######################
+  # 2. Laravel API Fallback
+  # /api/... handled by Laravel inside /api folder
+  #######################
+  RewriteCond %{REQUEST_URI} ^/api
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^api(/.*)?$ api/index.php [L,QSA]
+
+  #######################
+  # 3. Dashboard SPA (/dashboard)
+  #######################
+  RewriteCond %{REQUEST_URI} ^/dashboard
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^dashboard(/.*)?$ dashboard/index.html [L]
+
+  #######################
+  # 4. Pre-rendered landing page
+  # Serve SSG-generated palm-central.html for /palm-central
+  #######################
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^palm-central$ /palm-central.html [L]
+
+  #######################
+  # 5. Frontend SPA fallback (/)
+  #######################
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# ── Gzip compression ───────────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE font/woff2 image/svg+xml
+</IfModule>
+
+# ── Cache headers ──────────────────────────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Vite hashes JS/CSS filenames — safe to cache for 1 year
+  <FilesMatch "\.(js|css)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, immutable"
+  </FilesMatch>
+
+  # Fonts and images — 1 year
+  <FilesMatch "\.(woff2?|ttf|eot|svg|png|jpg|jpeg|webp|avif|ico)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, immutable"
+  </FilesMatch>
+
+  # Pre-rendered HTML pages — revalidate every hour
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 1 hour"
+    Header set Cache-Control "public, must-revalidate"
+  </FilesMatch>
+
+  # robots.txt, sitemap, llms.txt — revalidate daily
+  <FilesMatch "\.(txt|xml|webmanifest)$">
+    ExpiresDefault "access plus 1 day"
+    Header set Cache-Control "public, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ── Security headers ───────────────────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the "ea-php70" package as the default "PHP" programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php70 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

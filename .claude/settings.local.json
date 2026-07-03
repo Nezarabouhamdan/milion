@@ -19,7 +19,17 @@
       "Bash(git pull *)",
       "Bash(git checkout *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(node -e \"const p=require\\('./package.json'\\); console.log\\(p.dependencies['@unhead/vue'] || p.devDependencies['@unhead/vue'] || 'not found'\\); console.log\\(p.dependencies['vite-ssg'] || p.devDependencies['vite-ssg'] || 'not found'\\)\")",
+      "Bash(node -e \"const pkg=require\\('./node_modules/@unhead/vue/package.json'\\); const exp=pkg.exports||{}; Object.keys\\(exp\\).forEach\\(k=>console.log\\(k\\)\\)\")",
+      "Bash(node -e \"try { const m=require\\('./node_modules/@unhead/vue/dist/server.cjs'\\); console.log\\(Object.keys\\(m\\).join\\(', '\\)\\); } catch\\(e\\) { console.log\\('CJS error:', e.message\\) }\")",
+      "Bash(node -e \"const {execSync}=require\\('child_process'\\); try { const r=execSync\\('node --input-type=module', {input: 'import * as m from \\\\\"./node_modules/@unhead/vue/dist/server.mjs\\\\\"; console.log\\(Object.keys\\(m\\).join\\(\\\\\", \\\\\"\\)\\)', encoding:'utf8', cwd: 'c:\\\\\\\\\\\\\\\\Users\\\\\\\\\\\\\\\\muham\\\\\\\\\\\\\\\\Downloads\\\\\\\\\\\\\\\\real-estate-frontend-master\\\\\\\\\\\\\\\\real-estate-frontend-master' }\\); console.log\\(r\\); } catch\\(e\\){ console.log\\(e.stderr||e.message\\) }\")",
+      "Bash(node --input-type=module)",
+      "Bash(grep -v \"//\\\\|ahead\\\\|thead\\\\|forehead\\\\|overhead\\\\|inhead\\\\|stylesheet\\\\|headTags\\\\|headTag\\\\|headers\\\\|<head\")",
+      "Bash(grep -v \"//\\\\|forehead\\\\|thead\\\\|ahead\\\\|overhead\")",
+      "Bash(node -e \"const p=require\\('./node_modules/@unhead/vue/package.json'\\); console.log\\(JSON.stringify\\(p.dependencies||{}, null, 2\\)\\)\")",
+      "Bash(node -e \"const p=require\\('./node_modules/vite-ssg/package.json'\\); console.log\\(JSON.stringify\\(p.dependencies||{}, null, 2\\)\\)\")",
+      "Bash(node -e \"const p=require\\('./node_modules/embla-carousel/package.json'\\); console.log\\(p.version\\)\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\Khales\\milion\\src\\assets",

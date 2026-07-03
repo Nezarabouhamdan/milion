@@ -1,0 +1,29 @@
+# Million Homes
+
+Million Homes is a premium real estate agency based in the UAE and UK, specialising in luxury off-plan and ready properties in Dubai and beyond.
+
+## About
+
+Million Homes connects discerning investors — particularly UK-based buyers — with world-class residential developments in Dubai, including Palm Jebel Ali, Downtown Dubai, and other sought-after locations.
+
+## Current Featured Development
+
+- [Palm Central by Nakheel – Beachfront Residences on Palm Jebel Ali](https://millionhomes.co.uk/palm-central)
+  Exclusive beachfront apartments and townhouses from £580,000. 1–5 bedroom residences on Palm Jebel Ali, Dubai.
+
+## Key Pages
+
+- [Properties](https://millionhomes.co.uk/properties) – Browse all available listings
+- [About Us](https://millionhomes.co.uk/about-us) – Learn about Million Homes
+- [Contact Us](https://millionhomes.co.uk/contact-us) – Get in touch with our team
+- [Blog](https://millionhomes.co.uk/blogs) – Market insights and property news
+- [Areas](https://millionhomes.co.uk/areas) – Explore Dubai's prime neighbourhoods
+
+## Services
+
+- [Buy Property](https://millionhomes.co.uk/service/buy)
+- [Sell Property](https://millionhomes.co.uk/service/sell)
+- [Rent Property](https://millionhomes.co.uk/service/rent)
+- [Holiday Homes](https://millionhomes.co.uk/service/holiday-homes)
+- [Property Management](https://millionhomes.co.uk/service/property-management)
+- [Mortgage Calculator](https://millionhomes.co.uk/service/mortgage-calculator)
