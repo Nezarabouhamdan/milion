@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 const GHL_WEBHOOK = "https://services.leadconnectorhq.com/hooks/hRYeaoSXr2HJVUM9mbzj/webhook-trigger/581684b7-84a6-4dbf-a1e5-c0f1a096324a";
 
-const HERO_IMG   = "https://www.nakheel.com/images/nakheelcorporatelibraries/developments/projects/palm-central_image-03.jpg?sfvrsn=2eabbc59_1";
+const HERO_IMG   = "https://i.ibb.co/hF5CQwz5/7951f0f5-a3d0-4012-ada1-cac164e1dbfe.jpg";
 const AERIAL_IMG = "https://www.nakheel.com/images/nakheelcorporatelibraries/construction-updates/palm-jebel-ali_banner1_apr-26.jpg?sfvrsn=324b30ac_1";
 const AM_IMG    = "https://www.cbnme.com/wp-content/uploads/2025/10/Palm-Central-Private-Residences-2.jpg";
 const GALLERY_IMGS = [
@@ -11,8 +11,8 @@ const GALLERY_IMGS = [
     { src: "https://www.nakheel.com/images/nakheelcorporatelibraries/construction-updates/palm-jebel-ali_banner1_apr-26.jpg?sfvrsn=324b30ac_1",                         label: "Aerial View" },
     { src: "https://www.nakheel.com/images/nakheelcorporatelibraries/developments/projects/palm-central_image-03.jpg?sfvrsn=2eabbc59_1",                                label: "The Residences" },
     { src: "https://www.cbnme.com/wp-content/uploads/2025/10/Palm-Central-Private-Residences-2.jpg",                                                                    label: "Private Beach" },
-    { src: "https://www.nakheel.com/images/nakheelcorporatelibraries/developments/projects/palm-central_image-05.jpg?sfvrsn=704f0022_1",                                label: "Master Plan" },
-    { src: "https://www.nakheel.com/images/nakheelcorporatelibraries/developments/projects/palm-central_image-03.jpg?sfvrsn=2eabbc59_1",                                label: "Community" },
+    { src: "https://thepalm-jebelali.com/wp-content/uploads/2025/10/Palm-central-master-plan.jpg",                                                                      label: "Master Plan" },
+    { src: "https://cdn.geniemap.net/upload/b3/e9/6d/dc/eaac0015-1334-4aea-b023-e58b0849d5b1.webp",                                                                    label: "Site Plan" },
 ];
 
 const amenities = [
@@ -35,18 +35,18 @@ const amenities = [
 ];
 
 const units = [
-    { type: "1 Bedroom",       price: "AED 2.7M" },
-    { type: "2 Bedroom",       price: "AED 4.3M – 4.9M" },
-    { type: "3 Bedroom",       price: "AED 7.5M" },
-    { type: "Townhouse 4 Bed", price: "AED 12.4M – 14.9M" },
-    { type: "Townhouse 5 Bed", price: "AED 18.9M" },
+    { type: "1 Bedroom",       price: "£580K" },
+    { type: "2 Bedroom",       price: "£925K – £1.05M" },
+    { type: "3 Bedroom",       price: "£1.6M" },
+    { type: "Townhouse 4 Bed", price: "£2.65M – £3.2M" },
+    { type: "Townhouse 5 Bed", price: "£4.05M" },
 ];
 
 
 const budgetOptions = [
-    "AED 2M – 5M",
-    "AED 5M – 10M",
-    "AED 10M+",
+    "£500K – £1M",
+    "£1M – £2M",
+    "£2M+",
 ];
 
 const formData = ref({ name: "", email: "", phone: "", budget: "" });
@@ -92,18 +92,6 @@ async function submitForm() {
 <template>
     <div class="pc">
 
-        <!-- ══ TOP NAV ════════════════════════════════════════════════════ -->
-        <nav class="pc-nav">
-            <div class="pc-nav__links">
-                <a href="#pc-hero">Home</a>
-                <a href="#pc-about">About</a>
-                <a href="#pc-amenities">Amenities</a>
-                <a href="#pc-gallery">Gallery</a>
-                <a href="#pc-location">Location</a>
-                <a href="#pc-form">Floor Plans</a>
-            </div>
-        </nav>
-
         <!-- ══ HERO ═══════════════════════════════════════════════════════ -->
         <section class="pc-hero" id="pc-hero">
             <div class="pc-hero__bg" :style="{ backgroundImage: `url('${HERO_IMG}')` }"></div>
@@ -113,10 +101,9 @@ async function submitForm() {
                 <!-- Left: brand + tagline -->
                 <div class="pc-hero__left">
                     <div class="pc-hero__brand">
-                        <p class="pc-hero__brand-name">PALM CENTRAL</p>
-                        <p class="pc-hero__brand-sub">PRIVATE RESIDENCES</p>
+                        <p class="pc-hero__brand-name">Palm Central by Nakheel</p>
                     </div>
-                    <h1 class="pc-hero__tagline">A Calm Called Home</h1>
+                    <h1 class="pc-hero__tagline">Beachfront apartment and townhouses on Palm Jebel Ali</h1>
                 </div>
 
                 <!-- Right: glassmorphism form -->
@@ -208,7 +195,7 @@ async function submitForm() {
                 <svg class="pc-stat__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20M6 14h.01M10 14h4"/>
                 </svg>
-                <p class="pc-stat__value">AED 2.7 MILLION</p>
+                <p class="pc-stat__value">£580,000</p>
                 <p class="pc-stat__label">Starting From</p>
             </div>
             <div class="pc-stat-divider"></div>
@@ -377,40 +364,10 @@ async function submitForm() {
     overflow-x: hidden;
 }
 
-/* ── NAV ─────────────────────────────────────────────────────────────────── */
-.pc-nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    background: rgba(10, 10, 10, 0.32);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 56px;
-}
-.pc-nav__links {
-    display: flex;
-    gap: 2.8rem;
-}
-.pc-nav__links a {
-    font-family: var(--sans);
-    font-size: 0.75rem;
-    font-weight: 300;
-    color: rgba(255,255,255,0.78);
-    text-decoration: none;
-    transition: color 0.2s;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
-.pc-nav__links a:hover { color: #ffffff; }
-
 /* ── HERO ────────────────────────────────────────────────────────────────── */
 .pc-hero {
     position: relative;
     min-height: 100svh;
-    padding-top: 52px;
     display: flex;
     align-items: stretch;
     overflow: hidden;
@@ -467,6 +424,12 @@ async function submitForm() {
     letter-spacing: 0.12em;
     margin-bottom: 0.4rem;
 }
+.pc-hero__brand-dev {
+    font-size: 0.85em;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.55);
+}
 .pc-hero__brand-sub {
     font-size: 0.6rem;
     font-weight: 300;
@@ -482,6 +445,41 @@ async function submitForm() {
     line-height: 1.1;
     letter-spacing: 0.01em;
 }
+/* Right column: intro + form */
+.pc-hero__right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+.pc-hero__form-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+.pc-form-intro__label {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-l);
+}
+.pc-form-intro__sub {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: 0.03em;
+}
+.pc-form-intro__desc {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+    max-width: 34ch;
+}
+
 /* Glass form card */
 .pc-hero__glass {
     width: 370px;
@@ -1056,7 +1054,6 @@ async function submitForm() {
 
 /* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
-    .pc-nav__links { display: none; }
     .pc-hero__body { flex-direction: column; padding: 3rem 6vw 4rem; align-items: flex-start; }
     .pc-hero__form-wrap { width: 100%; box-shadow: none; }
     .pc-about { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 6vw; }

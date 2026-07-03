@@ -15,7 +15,11 @@
       "Bash(sed -n '140,150p' \"c:\\\\Users\\\\Khales\\\\milion\\\\src\\\\views\\\\PropertySearch.vue\")",
       "PowerShell(Copy-Item \"C:\\\\Users\\\\Khales\\\\milion\\\\src\\\\assets\\\\IMG_4063.PNG\" \"C:\\\\Users\\\\Khales\\\\milion\\\\src\\\\assets\\\\IMG_4063.png\")",
       "Bash(xargs sed -i 's/#D4AF37/#B48933/g')",
-      "Bash(xargs grep -l \"useTeam\\\\|fetchAgent\\\\|agent API\")"
+      "Bash(xargs grep -l \"useTeam\\\\|fetchAgent\\\\|agent API\")",
+      "Bash(git pull *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ],
     "additionalDirectories": [
       "C:\\Users\\Khales\\milion\\src\\assets",
