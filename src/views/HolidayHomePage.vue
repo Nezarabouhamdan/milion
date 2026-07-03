@@ -6,6 +6,7 @@ import { imagePath, isImageAsset } from "../utils/helpers";
 import { useHolidayHome } from "../composables/useHolidayHome";
 import type { Property } from "../types/property";
 import backgroundImage from "../assets/buy_1.jpg";
+import PropertyCarousel from "../components/PropertyCarousel.vue";
 
 // Fetch holiday home metadata
 const { data: holidayHomeResponse } = useHolidayHome(true);
@@ -187,14 +188,19 @@ const primaryImage = (property: Property) => {
 				</p>
 			</div>
 
-			<div
+			<PropertyCarousel
 				v-if="holidayHomes.length > 0"
-				class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+				:watchItems="holidayHomes"
+				:autoPlay="true"
+				:interval="1500"
 			>
 				<div
 					v-for="property in holidayHomes"
 					:key="property.id"
-					class="bg-card rounded-xl shadow-card overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 group animate-zoom-in"
+					class="flex-none w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 px-3"
+				>
+				<div
+					class="bg-card rounded-xl shadow-card overflow-hidden transition-all duration-400 hover:shadow-card-hover hover:-translate-y-1.5 group animate-zoom-in"
 				>
 					<router-link :to="`/property/${property.slug}`">
 						<div class="relative h-56">
@@ -283,7 +289,8 @@ const primaryImage = (property: Property) => {
 						</div>
 					</router-link>
 				</div>
-			</div>
+				</div>
+			</PropertyCarousel>
 
 			<div
 				v-else

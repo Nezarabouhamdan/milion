@@ -57,8 +57,8 @@ const bioHtml = (bio: string | null | undefined) =>
 		.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 		.replace(/\r?\n/g, '<br>');
 
-// Wraps known English nicknames in translate="no" spans with Arabic transliteration
-const NAME_FIXES: Record<string, string> = {
+// Both EN and AR versions are rendered; CSS shows the right one based on html[lang]
+const NICKNAME_AR: Record<string, string> = {
 	"Mars": "مارس",
 	"Leo":  "ليو",
 };
@@ -66,10 +66,10 @@ const NAME_FIXES: Record<string, string> = {
 const fixNameHtml = (name: string | null | undefined): string => {
 	if (!name) return "";
 	let result = name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-	Object.entries(NAME_FIXES).forEach(([en, ar]) => {
+	Object.entries(NICKNAME_AR).forEach(([en, ar]) => {
 		result = result.replace(
 			new RegExp(`\\(${en}\\)`, "g"),
-			`<span translate="no">(${ar})</span>`
+			`<span class="nick-en">(${en})</span><span class="nick-ar" translate="no">(${ar})</span>`
 		);
 	});
 	return result;
@@ -205,4 +205,11 @@ const fixNameHtml = (name: string | null | undefined): string => {
 .fade-leave-to {
 	opacity: 0;
 }
+</style>
+
+<style>
+/* When Google Translate sets lang="ar" on <html>, show Arabic nicknames and hide English */
+.nick-ar { display: none; }
+html[lang="ar"] .nick-ar { display: inline; }
+html[lang="ar"] .nick-en { display: none; }
 </style>

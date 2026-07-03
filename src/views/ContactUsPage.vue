@@ -29,14 +29,30 @@ const onCountryCodeChange = (value: string, phoneData: any) => {
 	}
 };
 
+const GHL_WEBHOOK = "https://services.leadconnectorhq.com/hooks/hRYeaoSXr2HJVUM9mbzj/webhook-trigger/416073ad-a1cd-45d2-8711-91a50a85c03e";
+
 // Submit handler
 const submitContactRequest = async () => {
 	isSubmitting.value = true;
 	try {
-		const response = await contactUs({
+		const fullPhone = `${contactForm.value.phone_code}${contactForm.value.contact_number}`;
+		await contactUs({
 			...contactForm.value,
-			contact_number: `${contactForm.value.phone_code}${contactForm.value.contact_number}`,
+			contact_number: fullPhone,
 		});
+		// Send to GHL
+		fetch(GHL_WEBHOOK, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				firstName: contactForm.value.name.trim().split(" ")[0],
+				lastName:  contactForm.value.name.trim().split(" ").slice(1).join(" "),
+				email:     contactForm.value.email,
+				phone:     fullPhone,
+				customField: { message: contactForm.value.message, source: "Contact Us Page" },
+				tags: ["contact-us", "website-lead"],
+			}),
+		}).catch(() => {});
 		// Reset form
 		contactForm.value = {
 			name: "",

@@ -117,6 +117,12 @@ const PublicRoutes: CustomRoute[] = [
         name: "AreaSpecificPage",
     },
     {
+        path: "/palm-central",
+        component: () => import("../views/PalmCentralPage.vue"),
+        name: "PalmCentral",
+        meta: { noLayout: true },
+    },
+    {
         path: "/:pathMatch(.*)*",
         component: () => import("../views/NotFoundPage.vue"),
         name: "NotFound",

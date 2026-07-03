@@ -4,6 +4,7 @@ import { useIntersectionObserver } from "../composables/useIntersectionObserver"
 import { useBlogsQuery } from "../composables/useBlogsQuery";
 import { imagePath } from "../utils/helpers";
 import type { Blog } from "../types/blog";
+import PropertyCarousel from "../components/PropertyCarousel.vue";
 
 const blogSectionRef = ref<HTMLElement | null>(null);
 const { isVisible } = useIntersectionObserver(blogSectionRef);
@@ -93,13 +94,14 @@ function formatDate(dateString: string) {
 				</p>
 			</div>
 
-			<!-- Blog Grid -->
-			<div
-				class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-			>
-				<router-link
+			<!-- Blog Carousel -->
+			<PropertyCarousel :watchItems="blogList" :autoPlay="true" :interval="1500">
+				<div
 					v-for="blog in blogList"
 					:key="blog.id"
+					class="flex-none w-full sm:w-1/2 lg:w-1/3 px-3"
+				>
+				<router-link
 					:to="`/blog/${blog.slug}`"
 					class="block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group hover:-translate-y-1"
 					role="link"
@@ -168,6 +170,7 @@ function formatDate(dateString: string) {
 					</div>
 				</router-link>
 			</div>
+			</PropertyCarousel>
 
 			<!-- View All Blogs Button -->
 			<div class="text-center mt-8">

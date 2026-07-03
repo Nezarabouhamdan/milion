@@ -14,6 +14,7 @@ import * as lucideIcons from "lucide-vue-next";
 import { imagePath, isImageAsset } from "../utils/helpers";
 import type { Property } from "../types/property";
 import PropertyCard from "../components/PropertyCard.vue";
+import PropertyCarousel from "../components/PropertyCarousel.vue";
 
 const route = useRoute();
 const areaId = computed(() => route.params.id);
@@ -402,19 +403,25 @@ useSeoMeta({
 						</p>
 					</div>
 
-					<!-- Properties Grid -->
-					<div
+					<!-- Properties Carousel -->
+					<PropertyCarousel
 						v-else-if="areaProperties.length > 0"
-						class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+						:watchItems="areaProperties"
+						:autoPlay="true"
+						:interval="1500"
 					>
-						<PropertyCard
+						<div
 							v-for="property in areaProperties"
 							:key="property.id"
-							:property="property"
-							:viewMode="'grid'"
-							:primaryImage="primaryImage"
-						/>
-					</div>
+							class="flex-none w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 px-3"
+						>
+							<PropertyCard
+								:property="property"
+								:viewMode="'grid'"
+								:primaryImage="primaryImage"
+							/>
+						</div>
+					</PropertyCarousel>
 
 					<!-- No Properties -->
 					<div

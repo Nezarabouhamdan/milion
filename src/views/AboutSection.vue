@@ -89,8 +89,8 @@ const hasAboutUs = computed(() => aboutUs.value);
 							{{
 								t(aboutUs.ctaText, aboutUs.ctaText_jp) ||
 								(isChinese
-									? "è®¤è¯†æˆ‘ä»¬çš„å›¢é˜Ÿ â†’"
-									: "meet our team â†’")
+									? "认识我们的团队 →"
+									: "meet our team →")
 							}}
 						</router-link>
 					</div>

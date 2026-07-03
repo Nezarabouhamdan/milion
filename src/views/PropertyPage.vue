@@ -4,7 +4,7 @@ import { usePropertyTypeQuery } from "../composables/usePropertyTypeQuery";
 import { useRoute, useRouter } from "vue-router";
 import { useAmenityQuery } from "../composables/useAmenityQuery";
 import { useQuery, useQueryClient } from "@tanstack/vue-query";
-import { imagePath, isImageAsset } from "../utils/helpers";
+import { imagePath, isImageAsset, formatPrice } from "../utils/helpers";
 import axios from "../services/axios";
 import type { Property } from "../types/property";
 import {
@@ -47,6 +47,7 @@ import { cn } from "../lib/utils";
 import { debounce } from "lodash-es";
 
 import PropertyCard from "../components/PropertyCard.vue";
+import PropertyCarousel from "../components/PropertyCarousel.vue";
 
 const defaultFilters = ref<{
 	purpose: string | null;
@@ -546,6 +547,19 @@ watch(
 );
 
 onMounted(syncFiltersFromRoute);
+
+const getPropertyTypePrice = (property: Property) => {
+	if (property.completion_status === "off_plan") {
+		return `From ${formatPrice(property.price)} AED`;
+	}
+	if (property.purpose === "rent") {
+		return `${formatPrice(property.price)} AED / year`;
+	}
+	if ((property as any).property_type?.slug === "holiday-homes") {
+		return `${formatPrice(property.price)} AED / night`;
+	}
+	return `${formatPrice(property.price)} AED`;
+};
 </script>
 
 <template>
@@ -1209,49 +1223,159 @@ onMounted(syncFiltersFromRoute);
 			>
 				<h3
 					v-if="getLocationName"
-					class="text-lg font-semibold text-gray-800"
+					class="text-lg font-semibold"
+					style="color:#C9A028;"
 				>
 					{{ properties?.length ?? 0 }} Properties Found in
 					{{ getLocationName }}
 				</h3>
 
-				<h3 v-else class="text-lg font-semibold text-gray-800">
+				<h3 v-else class="text-lg font-semibold" style="color:#C9A028;">
 					{{ properties?.length ?? 0 }} Properties Found
 				</h3>
 			</div>
 
-			<!-- PROPERTY GRID/LIST -->
-			<div
+			<!-- PROPERTY CAROUSEL -->
+			<PropertyCarousel
 				v-if="properties.length > 0"
-				:class="[
-					viewMode === 'grid'
-						? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6'
-						: 'space-y-6',
-				]"
+				:watchItems="properties"
+				:autoPlay="true"
+				:interval="1500"
 			>
-				<PropertyCard
+				<div
 					v-for="property in properties"
 					:key="property.id"
-					:property="property"
-					:viewMode="viewMode"
-					:primaryImage="primaryImage"
-				/>
-			</div>
+					class="flex-none w-full sm:w-1/2 lg:w-1/3 px-3"
+				>
+					<router-link
+						:to="`/property/${property.slug}`"
+						class="group block rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2"
+						style="background:#1a1a1a; box-shadow:0 4px 24px rgba(0,0,0,0.45);"
+					>
+						<!-- Image -->
+						<div class="relative overflow-hidden" style="height:215px;">
+							<img
+								:src="primaryImage(property)"
+								:alt="property.title"
+								loading="lazy"
+								class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+							/>
+							<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none"></div>
+
+							<!-- Handover badge -->
+							<div
+								v-if="property.handover_date"
+								class="absolute top-3 left-3 flex items-center gap-1 bg-black/75 backdrop-blur-sm text-white text-[11px] font-medium px-2.5 py-1 rounded-full"
+							>
+								<svg class="w-3 h-3 shrink-0" style="color:#C9A028;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+								</svg>
+								{{ property.handover_date }}
+							</div>
+
+							<!-- Featured badge -->
+							<div
+								v-if="property.is_featured == 1"
+								class="absolute top-3 right-3 text-black text-[11px] font-bold px-2.5 py-1 rounded-full"
+								style="background:#C9A028;"
+							>
+								Featured
+							</div>
+						</div>
+
+						<!-- Info -->
+						<div class="p-4 space-y-2.5">
+							<h3
+								class="notranslate font-bold text-base line-clamp-1 leading-snug"
+								style="color:#ffffff;"
+								translate="no"
+								lang="en"
+								:data-original="property.title"
+							>
+								{{ property.title }}
+							</h3>
+
+							<!-- Location + Developer -->
+							<div class="flex items-center gap-3 text-xs" style="color:#aaaaaa;">
+								<span
+									v-if="property.explore_location || property.location"
+									class="flex items-center gap-1 min-w-0 truncate"
+								>
+									<svg class="w-3 h-3 shrink-0" style="color:#C9A028;" fill="currentColor" viewBox="0 0 20 20">
+										<path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+									</svg>
+									<span class="truncate">{{ property.explore_location || property.location }}</span>
+								</span>
+								<span
+									v-if="property.developer_name"
+									class="flex items-center gap-1 shrink-0 font-semibold"
+									style="color:#C9A028;"
+								>
+									<svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+									</svg>
+									<span class="truncate max-w-[90px]">{{ property.developer_name }}</span>
+								</span>
+							</div>
+
+							<!-- Beds / Baths / Size (for ready properties) -->
+							<div
+								v-if="property.completion_status !== 'off_plan' && property.property_type?.slug !== 'holiday-homes'"
+								class="flex items-center gap-3 text-xs"
+								style="color:#888888;"
+							>
+								<span v-if="property.bedrooms" class="flex items-center gap-1">
+									<svg class="w-3 h-3" style="color:#C9A028;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+									</svg>
+									{{ property.bedrooms }} Bed
+								</span>
+								<span v-if="property.bathrooms" class="flex items-center gap-1">
+									<svg class="w-3 h-3" style="color:#C9A028;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
+									</svg>
+									{{ property.bathrooms }} Bath
+								</span>
+								<span v-if="property.size_sqft" class="flex items-center gap-1">
+									{{ property.size_sqft }} sqft
+								</span>
+							</div>
+
+							<div style="border-top:1px solid rgba(255,255,255,0.08);"></div>
+
+							<!-- Price + CTA -->
+							<div class="flex items-center justify-between">
+								<span class="font-bold text-sm leading-none" style="color:#C9A028;">
+									{{ getPropertyTypePrice(property) }}
+								</span>
+								<span
+									class="text-[11px] font-bold px-3 py-1.5 rounded-full transition-all duration-300 group-hover:scale-105"
+									style="background:#C9A028; color:#0A0A0A;"
+								>
+									Visit →
+								</span>
+							</div>
+						</div>
+					</router-link>
+				</div>
+			</PropertyCarousel>
 
 			<!-- EMPTY STATE -->
 			<div
 				v-else-if="!isFetching"
-				class="bg-white rounded-xl shadow-sm text-center py-12 px-6"
+				class="rounded-2xl text-center py-12 px-6"
+				style="background:#1a1a1a;"
 			>
-				<p class="text-gray-600 text-lg">
+				<p class="text-base" style="color:#aaaaaa;">
 					No properties found. Try adjusting your filters!
 				</p>
-				<Button
+				<button
 					@click="resetFilters"
-					class="mt-6 px-6 py-2 bg-black-100 text-white rounded-lg hover:bg-black-700 transition-all duration-200"
+					class="mt-6 px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200"
+					style="background:#C9A028; color:#0A0A0A;"
 				>
 					Reset Filters
-				</Button>
+				</button>
 			</div>
 
 			<!-- LOADING -->
@@ -1273,12 +1397,10 @@ onMounted(syncFiltersFromRoute);
 					v-for="page in totalPages"
 					:key="page"
 					@click="goToPage(page)"
-					:class="[
-						'w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200',
-						page === currentPage
-							? 'bg-black-100 text-white shadow-sm'
-							: 'bg-white text-gray-600 hover:bg-black-50 border border-gray-200',
-					]"
+					:style="page === currentPage
+						? 'background:#C9A028; color:#0A0A0A;'
+						: 'background:#1a1a1a; color:#aaaaaa; border:1px solid rgba(201,160,40,0.25);'"
+					class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200 hover:border-[#C9A028]"
 				>
 					{{ page }}
 				</button>

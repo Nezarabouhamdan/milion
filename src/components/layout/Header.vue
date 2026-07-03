@@ -317,6 +317,7 @@ const menuImageUrl = (menu: any) => {
 													@click="closeDropdowns"
 												>
 													<span
+														translate="no"
 														class="text-xs font-bold tracking-widest uppercase"
 														style="color: #D4AF37"
 													>{{ getMenuName(cat.name) }}</span>
@@ -513,6 +514,7 @@ const menuImageUrl = (menu: any) => {
 											<div v-for="cat in menu.menus" :key="cat.id" class="mb-2">
 												<router-link
 													:to="'/' + cat.link"
+													translate="no"
 													class="block px-3 py-2 hover:bg-gray-50 rounded text-sm font-semibold text-black-100"
 													@click="toggleMobileMenu"
 												>

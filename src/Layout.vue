@@ -1,14 +1,19 @@
 <script setup lang="ts">
-	import Header from './components/layout/Header.vue';
-	import Footer from './components/layout/Footer.vue';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import Header from './components/layout/Header.vue';
+import Footer from './components/layout/Footer.vue';
+
+const route = useRoute();
+const showLayout = computed(() => !route.meta?.noLayout);
 </script>
 
 <template>
     <div class="">
-        <Header></Header>
+        <Header v-if="showLayout"></Header>
         <div class="">
           <slot></slot>
         </div>
-        <Footer></Footer>
+        <Footer v-if="showLayout"></Footer>
     </div>
 </template>

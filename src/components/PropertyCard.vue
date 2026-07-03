@@ -1,18 +1,18 @@
 <template>
-	<router-link :to="`/property/${property.slug}`">
+	<router-link :to="`/property/${property.slug}`" class="group block">
 		<div
 			:class="[
-				'bg-white rounded-xl shadow-sm overflow-hidden transition-all duration-300',
+				'bg-white rounded-xl shadow-sm overflow-hidden transition-all duration-400',
 				viewMode === 'grid'
-					? 'hover:shadow-md hover:-translate-y-1'
-					: 'flex flex-col sm:flex-row gap-4 p-4 border border-gray-100',
+					? 'hover:shadow-xl hover:-translate-y-1.5'
+					: 'flex flex-col sm:flex-row gap-4 p-4 border border-gray-100 hover:border-[#C9A028]/40 hover:shadow-md',
 			]"
 		>
 			<!-- Image -->
 			<div
 				:class="
 					viewMode === 'grid'
-						? 'relative h-60'
+						? 'relative h-60 overflow-hidden'
 						: 'relative w-full sm:w-1/3 h-48 sm:h-44 rounded-lg overflow-hidden'
 				"
 			>
@@ -29,7 +29,7 @@
 				>
 					<span
 						v-if="property.is_featured == 1"
-						class="badge bg-black-600 text-white text-xs font-medium px-2.5 py-1 rounded-full"
+						class="badge bg-[#C9A028] text-black text-xs font-semibold px-2.5 py-1 rounded-full"
 					>
 						Featured
 					</span>
@@ -134,7 +134,8 @@
 				<!-- Price -->
 				<div class="flex justify-between items-center">
 					<span
-						class="text-black-600 font-semibold text-lg sm:text-xl"
+						class="font-bold text-lg sm:text-xl"
+						style="color: #C9A028;"
 					>
 						<template
 							v-if="property.completion_status === 'off_plan'"
@@ -162,9 +163,8 @@
 						</template>
 					</span>
 
-					<router-link
-						:to="`/property/${property.slug}`"
-						class="text-black-600 text-sm font-medium hover:text-gray-500 flex items-center gap-1 transition-colors"
+					<span
+						class="text-[#C9A028] text-sm font-medium flex items-center gap-1 transition-all duration-300 group-hover:gap-2"
 					>
 						Visit
 						<svg
@@ -180,7 +180,7 @@
 								d="M9 5l7 7-7 7"
 							/>
 						</svg>
-					</router-link>
+					</span>
 				</div>
 			</div>
 		</div>
