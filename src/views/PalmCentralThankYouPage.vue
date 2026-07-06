@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { useHead } from "@unhead/vue";
 
 useHead({
@@ -6,6 +7,17 @@ useHead({
     meta: [
         { name: "robots", content: "noindex, nofollow" },
     ],
+});
+
+onMounted(() => {
+    const gtag = (window as any).gtag;
+    if (typeof gtag === "function") {
+        gtag("event", "conversion", {
+            send_to: "AW-17153415021/AQHXCLOdkMocEO2usfM_",
+            value: 1.0,
+            currency: "AED",
+        });
+    }
 });
 </script>
 
