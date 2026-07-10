@@ -29,7 +29,12 @@
       "Bash(grep -v \"//\\\\|forehead\\\\|thead\\\\|ahead\\\\|overhead\")",
       "Bash(node -e \"const p=require\\('./node_modules/@unhead/vue/package.json'\\); console.log\\(JSON.stringify\\(p.dependencies||{}, null, 2\\)\\)\")",
       "Bash(node -e \"const p=require\\('./node_modules/vite-ssg/package.json'\\); console.log\\(JSON.stringify\\(p.dependencies||{}, null, 2\\)\\)\")",
-      "Bash(node -e \"const p=require\\('./node_modules/embla-carousel/package.json'\\); console.log\\(p.version\\)\")"
+      "Bash(node -e \"const p=require\\('./node_modules/embla-carousel/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(curl -s \"https://millionhomes.ae/api/api/front/property/Tilal-Binghatti\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s \"https://millionhomes.ae/api/api/front/property/Palm-Central-By-Nakheel\")",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s \"https://millionhomes.ae/api/api/front/property/greenz\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\Khales\\milion\\src\\assets",
